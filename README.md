@@ -13,13 +13,13 @@ git@github.com:framgia/sph-sim-jms.git
 - in `web` directory
 
 ```
-npm install
+yarn install
 ```
 
 - in `server` directory
 
 ```
-npm install
+yarn install
 ```
 
 ## Local Development
@@ -28,12 +28,12 @@ NextJS: http://localhost:3000
 
 ```
 cd web
-npm run dev
+yarn dev
 ```
 
 NestJS: http://localhost:4000
 
 ```
 cd server
-npm run start:dev
+yarn start:dev
 ```
