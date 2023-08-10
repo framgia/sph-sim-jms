@@ -1,0 +1,15 @@
+FROM node:16.16.0-alpine
+
+WORKDIR /usr/app/server
+
+COPY server/package*.json /usr/app/server
+
+RUN yarn install
+
+COPY server/ .
+
+RUN yarn prisma generate
+
+EXPOSE 4000
+
+CMD ["yarn", "run", "start:dev"]
