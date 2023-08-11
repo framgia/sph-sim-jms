@@ -10,10 +10,26 @@ jobs:
       - yarn install --frozen-lockfile
       - yarn eslint .
   
-  test: 
+  test_and_coverage: 
     stage: test
     image: node:16-alpine
+    cache:
+      - key:
+          files:
+            - server/yarn.lock
+        paths:
+          - server/node_modules
     script:
       - cd server
       - yarn install
-      - yarn test
+      - yarn test --coverage --coverageDirectory=../test/coverage --json --outputFile=./test/results
+    coverage:
+      type: clover
+      path: server/test/coverage
+    test_results:
+      type: junit
+      path: server/tests/results
+    artifacts:
+      paths: 
+        - server/test/coverage
+        - server/test/results
