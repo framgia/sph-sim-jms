@@ -1,0 +1,50 @@
+version: '3'
+networks:
+  jms:
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./web:/usr/app/web
+      - web_node_modules:/usr/app/web/node_modules
+    container_name: web-next
+    networks:
+      - jms
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./server:/usr/app/server
+      - server_node_modules:/usr/app/server/node_modules
+    depends_on:
+      - db
+    container_name: server-nest
+    networks:
+      - jms
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: jms
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    container_name: db-postgresql
+    networks:
+      - jms
+volumes:
+  pgdata:
+  web_node_modules:
+  server_node_modules:
