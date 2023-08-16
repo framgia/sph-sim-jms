@@ -4,7 +4,7 @@ WORKDIR /usr/app/web
 
 COPY web/package*.json /usr/app/web
 
-RUN yarn install
+RUN yarn install --frozen-lock
 
 COPY web/ .
 

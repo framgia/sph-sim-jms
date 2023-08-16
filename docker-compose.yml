@@ -10,7 +10,7 @@ services:
       - "3000:3000"
     volumes:
       - ./web:/usr/app/web
-      - /usr/app/web/node_modules
+      - web_node_modules:/usr/app/web/node_modules
     container_name: web-next
     networks:
       - jms
@@ -23,7 +23,7 @@ services:
       - "4000:4000"
     volumes:
       - ./server:/usr/app/server
-      - /usr/app/server/node_modules
+      - server_node_modules:/usr/app/server/node_modules
     depends_on:
       - db
     container_name: server-nest
@@ -46,3 +46,5 @@ services:
       - jms
 volumes:
   pgdata:
+  web_node_modules:
+  server_node_modules:
