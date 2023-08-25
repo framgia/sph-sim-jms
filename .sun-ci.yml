@@ -1,0 +1,80 @@
+stages: 
+  - build
+  - post-lint
+  - test-be
+  - test-fe
+
+jobs: 
+  - name: Build Job
+    stage: build
+    image: node:16-alpine
+    workspace: shared
+    cache: 
+      - key:
+          files: 
+            - root/yarn.lock
+        paths:
+          - root/node_modules
+    script: 
+      - yarn install --frozen-lockfile
+
+  - name: Lint Job
+    stage: post-lint
+    image: node:16-alpine
+    workspace: shared
+    cache:
+      - key:
+          files: 
+            - root/yarn.lock
+        paths:
+          - root/node_modules
+    script: 
+      - yarn eslint .
+
+  - name: Backend Test Job
+    stage: test-be
+    image: node:16-alpine
+    cache: 
+      - key:
+          files: 
+            - server/yarn.lock
+        paths:
+          - server/node_modules
+    script:
+      - cd server
+      - yarn install
+      - yarn test
+    coverage:
+      type: clover
+      path: server/test/coverage/clover.xml
+    artifacts:
+      paths: 
+      - server/test/coverage/clover.xml
+      - server/test/result/report.xml
+    test_result:
+      type: junit
+      path: server/test/result/report.xml
+
+  - name: Frontend Test Job
+    stage: test-fe
+    image: node:16-alpine
+    cache: 
+      - key:
+          files:
+            - web/yarn.lock
+        paths:
+          - web/node_modules
+    script:
+      - cd web
+      - yarn install
+      - yarn test
+    coverage:
+      type: clover
+      path: web/test/coverage/clover.xml
+    artifacts:
+      paths: 
+      - web/test/coverage/clover.xml
+      - web/test/result/report.xml
+    test_result:
+      type: junit
+      path: web/test/result/report.xml

@@ -26,6 +26,7 @@
     "@prisma/client": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "jest-junit": "^16.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
   },
@@ -64,11 +65,17 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
+    "collectCoverage": true,
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "**/*.{js,ts}"
     ],
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "coverageDirectory": "../test/coverage",
+    "coverageReporters": ["clover", "json", "lcov", "text"],
+    "testEnvironment": "node",
+    "reporters": [
+      "default",
+      ["jest-junit", {"outputDirectory": "./test/result", "outputName": "report.xml"}]
+    ]
   },
   "prisma": {
     "schema": "./src/models/schema.prisma"
