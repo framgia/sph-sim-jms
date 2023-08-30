@@ -60,7 +60,7 @@ const NavBar: FC<Props> = ({
             }}>
                 {Menus.map((item, index) => (
                     <ButtonBase key={index} disableRipple>
-                        <NavBarItem label={item.name} Icon={item.Icon}/>
+                        <NavBarItem label={item.name} Icon={item.Icon} linkTo={item.href}/>
                     </ButtonBase>
                 )
                 )}
