@@ -3,7 +3,7 @@
 import React, { FC } from 'react'
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import {Create, Logout, ArrowDropDown} from '@mui/icons-material'
-import { Box, Typography, Paper, Button, Stack, ButtonBase, Avatar, Popper, Grow } from '@mui/material'
+import { Box, Typography, Paper, Button, Stack, Avatar, Popper, Grow, IconButton } from '@mui/material'
 
 interface Props {
     name?: string,
@@ -35,14 +35,22 @@ const HeaderProfile: FC<Props> = ({
 
     return(
         <Box>
-            <ButtonBase
-                disableRipple
-                onClick={handleToggle}
+            <Box
                 ref={anchorRef}
+                sx={{
+                    display: 'flex',
+                    gap: 1,
+                }}
             >
                 <Avatar />
-                <ArrowDropDown />
-            </ButtonBase>
+                <IconButton
+                    onClick={handleToggle}
+                    ref={anchorRef}
+                    aria-label='profile-dropdown'
+                >
+                    <ArrowDropDown />
+                </IconButton>
+            </Box>
 
             <Popper
                 anchorEl={anchorRef.current}
@@ -74,12 +82,14 @@ const HeaderProfile: FC<Props> = ({
                                 display: 'flex',
                                 flexDirection: 'column',
                             }}>
-                                <Create fontSize='small' sx={{
+                                <IconButton sx={{
                                     position: 'absolute',
                                     marginTop: 1,
                                     marginRight: 1,
                                     alignSelf: 'flex-end',
-                                }}/>
+                                }}>
+                                    <Create fontSize='small' />
+                                </IconButton>
                                 <Stack sx={{
                                     alignItems: 'center',
                                     justifyContent: 'center',

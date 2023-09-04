@@ -42,7 +42,7 @@ const NavBar: FC<Props> = ({
             transition: 'all 0.3s'
         }}>
             <Box sx={{
-                alignSelf: 'flex-end',
+                alignSelf: expanded ? 'flex-end' : 'center',
                 paddingX: 2,
             }}>
                 <ButtonBase onClick={handleToggle}>
