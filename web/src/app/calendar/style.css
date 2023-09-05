@@ -1,0 +1,14 @@
+:root {
+    --fc-button-text-color: white;
+    --fc-border-color: #ACB5BD;
+    --fc-button-active-bg-color: #2A3F52;
+    --fc-button-active-border-color: #2A3F52;
+    --fc-button-bg-color: #5B829B;
+    --fc-button-border-color: #5B829B;
+    --fc-button-hover-bg-color: #2A3F52;
+    --fc-button-hover-border-color: #2A3F52;
+}
+
+.customView {
+    background-color: white;
+}
