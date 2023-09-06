@@ -93,6 +93,9 @@ const customDefaultFontFamily = {
 export const theme = createTheme({
   palette: { ...customColors },
   typography: {
+    button: {
+      textTransform: 'none',
+    },
     allVariants: {
       ...customDefaultFontFamily,
       color: customColors.dark,
@@ -213,3 +216,13 @@ export const theme = createTheme({
     },
   },
 });
+
+declare module '@mui/material/TextField' {
+  interface TextFieldPropsColorOverrides {
+    light: true;
+    dark: true;
+    neutral: true;
+    disabled: true;
+    white: true;
+  }
+}
