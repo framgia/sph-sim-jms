@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
-import seedUsers from "../api/user/seeds/user.seed";
+import seedUsers from "./seeders/user.seed";
 
 async function seed() {
     const prisma = new PrismaClient();
