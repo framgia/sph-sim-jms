@@ -1,6 +1,6 @@
 import {
-    Home,
     CalendarMonth,
+    Home,
     Person,
     SvgIconComponent,
 } from "@mui/icons-material";
@@ -20,11 +20,11 @@ export const Menus: IMenu[] = [
     {
         name: "Calendar",
         Icon: CalendarMonth,
-        href: "/",
+        href: "/calendar",
     },
     {
         name: "Customer",
         Icon: Person,
-        href: "/",
+        href: "/customer",
     },
 ];
