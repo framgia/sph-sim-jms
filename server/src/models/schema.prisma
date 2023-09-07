@@ -22,7 +22,7 @@ model Job {
     id             Int           @id @default(autoincrement())
     title          String        
     type           String
-    tags           Tag           @default(TAG_A)
+    tags           Tag[]           @default([TAG_A])
     remarks        String
     customer       Customer      @relation(fields: [customerId], references: [id])
     customerId     Int           

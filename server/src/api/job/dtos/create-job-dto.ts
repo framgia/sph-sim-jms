@@ -1,7 +1,8 @@
-import { $Enums, PaymentMethod, Tag } from "@prisma/client";
+import { PaymentMethod, Tag } from "@prisma/client";
 import { ApiProperty } from "@nestjs/swagger";
 import {
-    IsIn,
+    IsArray,
+    IsEnum,
     IsNumber,
     IsOptional,
     IsString,
@@ -17,9 +18,9 @@ export class CreateJobDto {
     type: string;
 
     @ApiProperty()
-    @IsString()
-    @IsIn(Object.values(Tag))
-    tags: $Enums.Tag;
+    @IsArray()
+    @IsEnum(Tag, { each: true })
+    tags: Tag[]
 
     @ApiProperty()
     @IsOptional()
@@ -28,8 +29,8 @@ export class CreateJobDto {
 
     @ApiProperty()
     @IsString()
-    @IsIn(Object.values(PaymentMethod))
-    paymentMethod: $Enums.PaymentMethod;
+    @IsEnum(PaymentMethod)
+    paymentMethod: PaymentMethod;
 
     @ApiProperty()
     @IsNumber()

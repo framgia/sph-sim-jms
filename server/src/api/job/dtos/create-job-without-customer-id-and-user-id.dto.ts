@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Tag, $Enums, PaymentMethod } from "@prisma/client";
-import { IsString, IsIn, IsOptional } from "class-validator";
+import { Tag, PaymentMethod } from "@prisma/client";
+import { IsString, IsOptional, IsEnum, IsArray } from "class-validator";
 
 export class CreateJobWithoutCustomerIdAndUserIdDto {
     @ApiProperty()
@@ -12,9 +12,9 @@ export class CreateJobWithoutCustomerIdAndUserIdDto {
     type: string;
 
     @ApiProperty()
-    @IsString()
-    @IsIn(Object.values(Tag))
-    tags: $Enums.Tag;
+    @IsArray()
+    @IsEnum(Tag, { each: true })
+    tags: Tag[]
 
     @ApiProperty()
     @IsOptional()
@@ -23,8 +23,8 @@ export class CreateJobWithoutCustomerIdAndUserIdDto {
 
     @ApiProperty()
     @IsString()
-    @IsIn(Object.values(PaymentMethod))
-    paymentMethod: $Enums.PaymentMethod;
+    @IsEnum(PaymentMethod)
+    paymentMethod: PaymentMethod;
 
     @ApiProperty()
     @IsOptional()

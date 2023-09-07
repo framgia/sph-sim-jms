@@ -25,7 +25,7 @@ CREATE TABLE "Job" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
     "type" TEXT NOT NULL,
-    "tags" "Tag" NOT NULL DEFAULT 'TAG_A',
+    "tags" "Tag"[] DEFAULT ARRAY['TAG_A']::"Tag"[],
     "remarks" TEXT NOT NULL,
     "customerId" INTEGER NOT NULL,
     "paymentMethod" "PaymentMethod" NOT NULL DEFAULT 'CASH',
