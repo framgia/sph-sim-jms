@@ -1,6 +1,7 @@
 module.exports = {
-  extends: ["eslint:recommended"],
-  rules: {
-    "no-undef": "off",
-  },
+	extends: ['eslint:recommended'],
+	rules: {
+		'no-undef': 'off',
+		'no-unused-vars': 'off'
+	}
 };
