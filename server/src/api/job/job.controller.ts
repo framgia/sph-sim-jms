@@ -1,48 +1,87 @@
-import { Job } from '@prisma/client';
-import { ApiTags } from '@nestjs/swagger';
-import { BadRequestException, Body, Controller, Get, NotFoundException, Param, ParseIntPipe, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Job } from "@prisma/client";
+import { ApiTags } from "@nestjs/swagger";
+import {
+  BadRequestException,
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  ParseIntPipe,
+  Post,
+  UseInterceptors,
+  UsePipes,
+  ValidationPipe,
+} from "@nestjs/common";
 
-import { JobService } from './job.service';
+import { JobService } from "./job.service";
 
-import { CreateJobWithCustomerAndSchedulesDto } from './dtos/create-job-with-customer-and-schedule.dto';
+import { CreateJobWithCustomerAndSchedulesDto } from "./dtos/create-job-with-customer-and-schedule.dto";
+import { PersonInChargeDto } from "./dtos/person-in-charge.dto";
 
-@ApiTags('job')
-@Controller('job')
+@ApiTags("job")
+@Controller("job")
 export class JobController {
-    constructor(
-        private readonly jobService: JobService
-    ) { }
+  constructor(private readonly jobService: JobService) {}
 
-    @Post()
-    @UsePipes(new ValidationPipe())
-    async create(@Body() options: CreateJobWithCustomerAndSchedulesDto): Promise<Job> {
-        const job = await this.jobService.createJobWithCustomerAndSchedules(options);
+  @Get("types")
+  async findAllTypes(): Promise<string[]> {
+    const types = await this.jobService.findAllTypes();
 
-        if (!job ) {
-            throw new BadRequestException("Something went wrong. Job not created.")
-        }
-        
-        return job;
+    if (types.length === 0) {
+      throw new NotFoundException("No job types found.");
     }
 
-    @Get()
-    async findAll(): Promise<Job[]> {
-        const jobs = await this.jobService.findAll()
+    return types;
+  }
 
-        if (jobs == 0) {
-            throw new NotFoundException("No job found.")
-        }
-        return jobs
+  @Get("personInCharge")
+  @UseInterceptors(ClassSerializerInterceptor)
+  async findAllPersonInCharge(): Promise<PersonInChargeDto[]> {
+    const person = await this.jobService.findAllPersonInCharge();
+
+    if (person.length === 0) {
+      throw new NotFoundException("No person in charge found.");
     }
 
-    @Get('/:id')
-    async findOne(@Param('id', ParseIntPipe) id: number): Promise<Job> {
-        const job = await this.jobService.findOne({ id })
+    return person.map((person) => new PersonInChargeDto({ ...person }));
+  }
 
-        if (!job) {
-            throw new NotFoundException("No job found.")
-        }
+  @Post()
+  @UsePipes(new ValidationPipe())
+  async create(
+    @Body() options: CreateJobWithCustomerAndSchedulesDto,
+  ): Promise<Job> {
+    const job = await this.jobService.createJobWithCustomerAndSchedules(
+      options,
+    );
 
-        return job
+    if (!job) {
+      throw new BadRequestException("Something went wrong. Job not created.");
     }
+
+    return job;
+  }
+
+  @Get()
+  async findAll(): Promise<Job[]> {
+    const jobs = await this.jobService.findAll();
+
+    if (jobs == 0) {
+      throw new NotFoundException("No job found.");
+    }
+    return jobs;
+  }
+
+  @Get("/:id")
+  async findOne(@Param("id", ParseIntPipe) id: number): Promise<Job> {
+    const job = await this.jobService.findOne({ id });
+
+    if (!job) {
+      throw new NotFoundException("No job found.");
+    }
+
+    return job;
+  }
 }
