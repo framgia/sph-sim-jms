@@ -33,6 +33,7 @@ describe('JobController', () => {
           tags: [$Enums.Tag.TAG_A],
           remarks: "string",
           paymentMethod: $Enums.PaymentMethod.CASH,
+          userId: 1,
         },
         work_schedules: []
       }
