@@ -2,21 +2,17 @@
 
 import { FilterCog } from '@/assets/icons/FilterCog';
 import { FilterRemove } from '@/assets/icons/FilterRemove';
+import styles from '@/styles/Filter.module.css';
 import TableRows from '@mui/icons-material/TableRows';
 import { Box, Button, Collapse } from '@mui/material';
-import { useState } from 'react';
-import styles from 'styles/Filter.module.css';
-import CreateDateRangeFilter from '../molecules/CreatedDateRangeFilter';
-import EstimationStatusFilter from '../molecules/EstimationStatusFilter';
-import SearchBar from '../molecules/SearchBar';
-import TagFilter from '../molecules/TagFilter';
+import CreateDateRangeFilter from '../../molecules/CreatedDateRangeFilter';
+import EstimationStatusFilter from '../../molecules/EstimationStatusFilter';
+import SearchBar from '../../molecules/SearchBar';
+import TagFilter from '../../molecules/TagFilter';
+import { useHooks } from './hooks';
 
 const SearchFilterHeader = (): JSX.Element => {
-	const [isExpanded, setIsExpanded] = useState(false);
-
-	const toggleFilters = () => {
-		setIsExpanded(!isExpanded);
-	};
+	const { isExpanded, toggleFilters } = useHooks();
 
 	return (
 		<Box

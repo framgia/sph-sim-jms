@@ -1,24 +1,15 @@
 'use-client';
 
+import styles from '@/styles/Filter.module.css';
 import { Box } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Moment } from 'moment';
-import { useState } from 'react';
-import styles from 'styles/Filter.module.css';
+import { useHooks } from './hooks';
 
 const CreateDateRangeFilter = () => {
-	const [startDate, setStartDate] = useState<Moment | null>();
-	const [endDate, setEndDate] = useState<Moment | null>();
-
-	const handleStartDateChange = (date: Moment | null): void => {
-		setStartDate(date);
-	};
-
-	const handleEndDateChange = (date: Moment | null): void => {
-		setEndDate(date);
-	};
+	const { startDate, handleStartDateChange, endDate, handleEndDateChange } =
+		useHooks();
 
 	return (
 		<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>

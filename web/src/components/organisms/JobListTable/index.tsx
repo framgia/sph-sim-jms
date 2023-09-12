@@ -1,6 +1,8 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { Column, JobData } from '@/app/page';
+import { useJobListContext } from '@/app/job/hooks';
 import StatusChip from '@/components/atoms/StatusChip';
+import { TableColumn } from '@/utils/constants/jobTableData';
+import { JobTableRow } from '@/utils/types/job';
 import {
 	Box,
 	Paper,
@@ -13,17 +15,13 @@ import {
 	TableRow,
 	Typography
 } from '@mui/material';
-import { FC } from 'react';
 
-interface Props {
-	columns: Column[];
-	data: JobData[];
-}
+const JobListTable = (): JSX.Element => {
+	const { columns, data } = useJobListContext();
 
-const JobListTable: FC<Props> = ({ columns, data }: Props) => {
 	const renderTableCellContent = (
-		column: Column,
-		row: JobData
+		column: TableColumn,
+		row: JobTableRow
 	): JSX.Element => {
 		switch (column.key) {
 			case 'tags':
@@ -99,10 +97,10 @@ const JobListTable: FC<Props> = ({ columns, data }: Props) => {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{data.map((row: JobData) => (
+								{data.map((row: JobTableRow) => (
 									<TableRow key={row.id}>
 										{columns.map(
-											(column: Column, index) => (
+											(column: TableColumn, index) => (
 												<TableCell key={index}>
 													{renderTableCellContent(
 														column,
