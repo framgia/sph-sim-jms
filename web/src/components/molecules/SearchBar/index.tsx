@@ -1,3 +1,4 @@
+import styles from '@/styles/Filter.module.css';
 import SearchIcon from '@mui/icons-material/Search';
 import {
 	FormControl,
@@ -5,15 +6,10 @@ import {
 	InputLabel,
 	OutlinedInput
 } from '@mui/material';
-import { useState } from 'react';
-import styles from 'styles/Filter.module.css';
+import { useHooks } from './hooks';
 
 const SearchBar = () => {
-	const [searchKeyword, setSearchKeyword] = useState('');
-
-	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setSearchKeyword(e.target.value);
-	};
+	const { searchKeyword, handleSearch } = useHooks();
 
 	return (
 		<FormControl fullWidth>

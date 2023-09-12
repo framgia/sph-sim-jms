@@ -1,36 +1,6 @@
-'use client';
+import { JobTableRow, TableColumn } from '../types/job';
 
-import Pagination from '@/components/atoms/Pagination';
-import JobListTable from '@/components/organisms/JobListTable';
-import SearchFilterHeader from '@/components/organisms/SearchFilterHeader';
-import { Grid } from '@mui/material';
-import { useState } from 'react';
-
-export interface Column {
-	key: string;
-	label: string;
-	width?: number;
-}
-
-interface Estimation {
-	status: string;
-	cost: number;
-}
-
-export interface JobData {
-	id: number;
-	title: string;
-	customer: string;
-	tags: Array<string>;
-	schedules: Array<string>;
-	estimation: Estimation;
-	personInCharge: string;
-	pipelinePhase: string;
-	createdAt: string;
-	[key: string]: string | number | string[] | Estimation;
-}
-
-const columns: Column[] = [
+export const JobColumns : TableColumn[] = [
 	{ key: 'title', label: 'Job Title', width: 200 },
 	{ key: 'customer', label: 'Customer Name', width: 170 },
 	{ key: 'tags', label: 'Tags', width: 160 },
@@ -42,40 +12,7 @@ const columns: Column[] = [
 	{ key: 'createdAt', label: 'Created At', width: 120 }
 ];
 
-export default function JobList() {
-	const [page, setPage] = useState(1);
-
-	const handlePageChange = (value: number) => {
-		setPage(value);
-	};
-	return (
-		<main>
-			<Grid
-				container
-				sx={{
-					padding: 3,
-					gap: 3,
-					flexDirection: 'column'
-				}}>
-				<Grid item>
-					<SearchFilterHeader />
-				</Grid>
-				<Grid item>
-					<JobListTable columns={columns} data={data} />
-				</Grid>
-				<Grid item sx={{ alignSelf: 'center' }}>
-					<Pagination
-						count={12}
-						page={page}
-						onChange={handlePageChange}
-					/>
-				</Grid>
-			</Grid>
-		</main>
-	);
-}
-
-const data: JobData[] = [
+export const JobData: JobTableRow[] = [
 	{
 		id: 1,
 		title: 'New Summit',

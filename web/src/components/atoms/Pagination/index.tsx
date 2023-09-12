@@ -7,20 +7,15 @@ interface Props {
 	onChange: (page: number) => void;
 }
 
-const Pagination: FC<Props> = ({ count = 12, page = 1, onChange }: Props) => {
-	const handlePageChange = (
-		event: React.ChangeEvent<unknown>,
-		newPage: number
-	) => {
-		onChange(newPage);
-	};
-
+const Pagination: FC<Props> = ({ count, page, onChange }: Props) => {
 	return (
 		<MUIPagination
 			size='medium'
 			count={count}
 			page={page}
-			onChange={handlePageChange}
+			onChange={(e: React.ChangeEvent<unknown>, newPage: number) =>
+				onChange(newPage)
+			}
 			color='primary'
 			shape='rounded'
 			showFirstButton
