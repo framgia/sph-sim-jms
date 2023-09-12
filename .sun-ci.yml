@@ -34,12 +34,6 @@ jobs:
   - name: Backend Test Job
     stage: test-be
     image: node:16-alpine
-    cache: 
-      - key:
-          files: 
-            - server/yarn.lock
-        paths:
-          - server/node_modules
     script:
       - cd server
       - yarn install
@@ -58,12 +52,6 @@ jobs:
   - name: Frontend Test Job
     stage: test-fe
     image: node:16-alpine
-    cache: 
-      - key:
-          files:
-            - web/yarn.lock
-        paths:
-          - web/node_modules
     script:
       - cd web
       - yarn install
