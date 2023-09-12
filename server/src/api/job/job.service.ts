@@ -35,7 +35,7 @@ export class JobService extends AbstractService {
 
             // Step 2: Create the job associated with the customer
             // TODO: Update userId to be authUserId
-            const jobInput = { ...job_information, customerId: customer.id, userId: 1 } 
+            const jobInput = { ...job_information, customerId: customer.id } 
             const job = await this.createJob(jobInput)
 
             // Step 3: Create schedules for the job

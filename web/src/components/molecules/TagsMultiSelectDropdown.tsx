@@ -1,4 +1,5 @@
-import React from "react";
+import React, { FC } from "react";
+import { UseFormRegister } from "react-hook-form";
 import {
     SelectChangeEvent,
     FormControl,
@@ -11,9 +12,10 @@ import {
 } from "@mui/material";
 
 import { TagsEnum } from "../../utils/constants/TagsEnum";
+import { JobWithCustomerAndSchedules } from "../../types/JobRegistrationTypes";
 
-const TagsMultiSelectDropdown
- = () => {
+const TagsMultiSelectDropdown: FC<{ register: UseFormRegister<JobWithCustomerAndSchedules> }>
+ = ({ register }) => {
     const tagNames = Object.values(TagsEnum); 
     
     const [tags, setTags] = React.useState<string[]>([]);
@@ -28,6 +30,7 @@ const TagsMultiSelectDropdown
             <FormControl fullWidth>
                 <InputLabel id="multi-chip-tag-label">Tags *</InputLabel>
                 <Select
+                    {...register('job_information.tags')}
                     labelId="multi-chip-tag-label"
                     id="multi-chip-tag"
                     multiple

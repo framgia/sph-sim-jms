@@ -10,6 +10,10 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
   app.setGlobalPrefix('api')  
+  app.enableCors({ 
+    origin: ['http://localhost:3000'],
+    credentials: true
+  })
   
   const config = new DocumentBuilder()
     .setTitle('sim-JMS')

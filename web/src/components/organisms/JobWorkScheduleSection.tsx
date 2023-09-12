@@ -1,38 +1,45 @@
 "use client";
 
 import React, { FC } from "react";
-import { Moment } from "moment";
-
-import { Box, Button, IconButton, Typography } from "@mui/material";
 import { CloseOutlined } from "@mui/icons-material";
-import {
-    DatePicker,
-    LocalizationProvider,
-    TimePicker,
-} from "@mui/x-date-pickers";
-import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { Box, Button, IconButton, Typography } from "@mui/material";
+import { Control, FieldArrayWithId, UseFieldArrayAppend, UseFieldArrayRemove } from "react-hook-form";
 
-const JobWorkScheduleSection: FC = () => {
-    const [startDate, setStartDate] = React.useState<Moment | null>(null);
-    const [startTime, setStartTime] = React.useState<Moment | null>(null);
-    const [endDate, setEndDate] = React.useState<Moment | null>(null);
-    const [endTime, setEndTime] = React.useState<Moment | null>(null);
+import WorkScheduleField from "../molecules/WorkSchedulesField";
 
-    const updateStartDate = (newStartDate: Moment | null): void => {
-        setStartDate(newStartDate);
+import { JobWithCustomerAndSchedules } from "../../types/JobRegistrationTypes";
+
+interface JobWorkScheduleSectionProps {
+    append: UseFieldArrayAppend<JobWithCustomerAndSchedules, "work_schedules">;
+    fields: FieldArrayWithId<JobWithCustomerAndSchedules, "work_schedules", "id">[];
+    remove: UseFieldArrayRemove;
+    control: Control<JobWithCustomerAndSchedules>;
+}
+
+const JobWorkScheduleSection: FC<JobWorkScheduleSectionProps> = ({
+    append,
+    fields,
+    remove,
+    control,
+}) => {
+    const appendSchedule = () => {
+        append({
+            startDate: null,
+            startTime: null,
+            endDate: null,
+            endTime: null,
+        });
     };
 
-    const updateStartTime = (newStartTime: Moment | null): void => {
-        setStartTime(newStartTime);
-    };
+    const removeSchedule = (index: number) => {
+        if (fields.length <= 1) {
+            alert("Action cannot be done.")
+            return
+        }
 
-    const updateEndDate = (newEndDate: Moment | null) => {
-        setEndDate(newEndDate);
-    };
-
-    const updateEndTime = (newEndTime: Moment | null) => {
-        setEndTime(newEndTime);
-    };
+        remove(index)
+        alert('Schedule deleted.')
+    }
 
     return (
         <Box
@@ -47,12 +54,44 @@ const JobWorkScheduleSection: FC = () => {
         >
             <Typography variant="h4">Work Schedule</Typography>
 
-            <Box sx={{ display: "flex", gap: "8px", alignItems: "center" }}>
-                <LocalizationProvider dateAdapter={AdapterMoment}>
-                    <DatePicker value={startDate} onChange={updateStartDate} />
-                    <TimePicker value={startTime} onChange={updateStartTime} />
-                    <DatePicker value={endDate} onChange={updateEndDate} />
-                    <TimePicker value={endTime} onChange={updateEndTime} />
+            {fields.map((field: object & { id: string }, index: number) => (
+                <Box
+                    key={field.id}
+                    sx={{
+                        display: "flex",
+                        gap: "8px",
+                        alignItems: "center",
+                    }}
+                >
+                    <WorkScheduleField
+                        index={index}
+                        control={control}
+                        name="startDate"
+                        label="Start Date"
+                        type="date"
+                    />
+                    <WorkScheduleField
+                        index={index}
+                        control={control}
+                        name="startTime"
+                        label="Start Time"
+                        type="time"
+                    />
+                    <WorkScheduleField
+                        index={index}
+                        control={control}
+                        name="endDate"
+                        label="End Date"
+                        type="date"
+                    />
+                    <WorkScheduleField
+                        index={index}
+                        control={control}
+                        name="endTime"
+                        label="End Time"
+                        type="time"
+                    />
+
                     <IconButton
                         sx={{
                             display: "flex",
@@ -60,14 +99,20 @@ const JobWorkScheduleSection: FC = () => {
                             width: "40px",
                             height: "40px",
                         }}
+                        onClick={() => removeSchedule(index)}
                     >
                         <CloseOutlined fontSize="inherit" />
                     </IconButton>
-                </LocalizationProvider>
-            </Box>
-            
+                </Box>
+            ))}
+
             <Box>
-                <Button variant="contained" color="secondary" size="medium">
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    size="medium"
+                    onClick={appendSchedule}
+                >
                     Add Schedule
                 </Button>
             </Box>

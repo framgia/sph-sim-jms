@@ -3,7 +3,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { ValidateNested } from "class-validator";
 
 import { CreateCustomerDto } from "../../customer/dtos/create-customer.dto";
-import { CreateJobWithoutCustomerIdAndUserIdDto } from "./create-job-without-customer-id-and-user-id.dto";
+import { CreateJobWithoutCustomerIdDto } from "./create-job-without-customer-id-and-user-id.dto";
 import { CreateScheduleWithoutJobIdDto } from "../../schedule/dtos/create-schedule-without-job-id.dto";
 
 export class CreateJobWithCustomerAndSchedulesDto {
@@ -13,9 +13,9 @@ export class CreateJobWithCustomerAndSchedulesDto {
     customer_registration: CreateCustomerDto
 
     @ApiProperty()
-    @Type(() => CreateJobWithoutCustomerIdAndUserIdDto)
+    @Type(() => CreateJobWithoutCustomerIdDto)
     @ValidateNested()
-    job_information: CreateJobWithoutCustomerIdAndUserIdDto
+    job_information: CreateJobWithoutCustomerIdDto
     
     @ApiProperty()
     @Type(() => CreateScheduleWithoutJobIdDto)

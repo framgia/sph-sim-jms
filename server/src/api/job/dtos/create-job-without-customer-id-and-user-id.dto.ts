@@ -1,8 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Tag, PaymentMethod } from "@prisma/client";
-import { IsString, IsOptional, IsEnum, IsArray } from "class-validator";
+import { IsString, IsOptional, IsEnum, IsArray, IsNumber } from "class-validator";
 
-export class CreateJobWithoutCustomerIdAndUserIdDto {
+export class CreateJobWithoutCustomerIdDto {
     @ApiProperty()
     @IsString()
     title: string;
@@ -15,6 +15,10 @@ export class CreateJobWithoutCustomerIdAndUserIdDto {
     @IsArray()
     @IsEnum(Tag, { each: true })
     tags: Tag[]
+
+    @ApiProperty()
+    @IsNumber()
+    userId: number;
 
     @ApiProperty()
     @IsOptional()
