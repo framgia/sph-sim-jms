@@ -1,5 +1,8 @@
+'use client'
+
 import Link from 'next/link'
 import React, { FC } from 'react'
+import { usePathname } from 'next/navigation'
 import { Box, Typography } from '@mui/material'
 import {SvgIconComponent} from '@mui/icons-material'
 
@@ -24,6 +27,9 @@ const NavBarItem: FC<Props> = ({
     gap = 1,
     linkTo = "/"
     }) => {
+
+    const pathname = usePathname()
+    active = pathname === linkTo ? true : false
 
     const backgroundColor = active ? 'primary.100' : 'primary.700'
     const textColor = active?  'dark': 'white'
