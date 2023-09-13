@@ -1,3 +1,8 @@
+import { CustomerSchema } from './customer';
+import { EstimationSchema } from './estimation';
+import { ScheduleSchema } from './schedule';
+import { UserSchema } from './user';
+
 export interface TableColumn {
 	key: string;
 	label: string;
@@ -6,7 +11,7 @@ export interface TableColumn {
 
 export interface EstimationType {
 	status: string;
-	cost: number;
+	cost: string | number;
 }
 
 export interface JobTableRow {
@@ -24,5 +29,26 @@ export interface JobTableRow {
 
 export interface JobTable {
     columns: TableColumn[];
-    data: JobTableRow[];
+    data?: JobTableRow[];
+}
+
+export interface JobSchema {
+    id: number;
+    title: string;
+    type: string;
+    tags: string[];
+    remarks?: string;
+    customer: CustomerSchema;
+    paymentMethod: string;
+    personInCharge: UserSchema;
+    schedules: ScheduleSchema[];
+    estimation?: EstimationSchema;
+    pipelinePhase: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface JobListType {
+    jobs: JobSchema[];
+    count: number
 }
