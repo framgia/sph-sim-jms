@@ -9,11 +9,47 @@ export class JobsService {
 
   async findAll(query: JobQueryDto): Promise<JobListDto>  {
     try {
-      const { page, perPage = 12 } = query;
+      const { page, tag, status, startDate, endDate, perPage = 12 } = query;
       const skip = (page - 1) * perPage;
+
+      const tagCondition = tag ? {
+        tags: {
+          has: tag
+        }
+      } : {};
+
+      const statusCondition = status ? {
+        estimation: {
+          status: {
+            equals: status
+          }
+        }
+      } : {};
+
+      let dateRangeCondition = {}
+      if (startDate && endDate) {
+        const newEndDate = new Date(endDate);
+        newEndDate.setDate(newEndDate.getDate() + 1);
+
+        dateRangeCondition = {
+          createdAt: {
+            lt: newEndDate,
+            gte: new Date(startDate),
+          }
+        };
+      }
+
+      const whereCondition = {
+        AND: [
+          tagCondition,
+          statusCondition,
+          dateRangeCondition
+        ]
+      }
 
       const [ jobs, count ] = await this.prisma.$transaction([
         this.prisma.job.findMany({
+          where: whereCondition,
           take: perPage,
           skip,
           include: {
@@ -45,7 +81,7 @@ export class JobsService {
             }
           }
         }),
-        this.prisma.job.count()
+        this.prisma.job.count({ where: whereCondition })
       ]);
 
       return { jobs, count };
