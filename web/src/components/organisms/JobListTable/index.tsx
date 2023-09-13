@@ -1,8 +1,7 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { useJobListContext } from '@/app/job/hooks';
 import StatusChip from '@/components/atoms/StatusChip';
-import { TableColumn } from '@/utils/constants/jobTableData';
-import { JobTableRow } from '@/utils/types/job';
+import { JobTableRow, TableColumn } from '@/utils/types/job';
 import {
 	Box,
 	Paper,
@@ -58,7 +57,7 @@ const JobListTable = (): JSX.Element => {
 			case 'cost':
 				return (
 					<Typography variant='label1r'>
-						{`₱ ${row.estimation.cost.toFixed(2)}`}
+						{row.estimation.cost}
 					</Typography>
 				);
 			default:
@@ -97,7 +96,7 @@ const JobListTable = (): JSX.Element => {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{data.map((row: JobTableRow) => (
+								{data?.map((row: JobTableRow) => (
 									<TableRow key={row.id}>
 										{columns.map(
 											(column: TableColumn, index) => (
