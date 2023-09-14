@@ -10,9 +10,99 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Temporary model so that Prisma Client can initialize
-model SampleUser {
-  id    Int    @id @default(autoincrement())
-  name  String
-  email String @unique
+model User {
+  id        Int      @id @default(autoincrement())
+  firstName String
+  lastName  String
+  email     String
+  role      Role     @default(USER)
+  jobs      Job[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Job {
+  id             Int           @id @default(autoincrement())
+  title          String
+  type           String
+  tags           Tag[]
+  remarks        String?
+  customer       Customer      @relation(fields: [customerId], references: [id])
+  customerId     Int
+  paymentMethod  PaymentMethod @default(CASH)
+  personInCharge User          @relation(fields: [userId], references: [id])
+  userId         Int
+  schedules      Schedule[]
+  estimation     Estimation?
+  pipelinePhase  PipelinePhase @default(NEGOTIATION)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @default(now())
+
+  @@unique([title, customerId])
+}
+
+model Customer {
+  id        Int      @id @default(autoincrement())
+  firstName String
+  lastName  String
+  email     String   @unique
+  contact   String
+  address   String
+  jobs      Job[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Schedule {
+  id        Int      @id @default(autoincrement())
+  startDate DateTime
+  endDate   DateTime
+  startTime DateTime
+  endTime   DateTime
+  job       Job      @relation(fields: [jobId], references: [id])
+  jobId     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Estimation {
+  id        Int      @id @default(autoincrement())
+  title     String
+  document  String
+  totalCost Decimal
+  status    Status
+  job       Job      @relation(fields: [jobId], references: [id])
+  jobId     Int      @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Tag {
+  TAG_A
+  TAG_B
+  TAG_C
+}
+
+enum PaymentMethod {
+  CASH
+  CARD
+  BANK_TRANSFER
+}
+
+enum Status {
+  NOT_YET_CREATED
+  MAKING
+  APPROVED
+  SENT_TO_CUSTOMER
+  CLOSED
+}
+
+enum PipelinePhase {
+  NEGOTIATION
+  DELIVERY
 }
