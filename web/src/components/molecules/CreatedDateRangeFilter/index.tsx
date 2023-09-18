@@ -8,11 +8,11 @@ import { useHooks } from './hooks';
 
 const CreateDateRangeFilter = () => {
 	const {
-		startDate,
+		error,
+		initialStartDate,
 		handleStartDateChange,
-		endDate,
-		handleEndDateChange,
-		isInvalidDate
+		initialEndDate,
+		handleEndDateChange
 	} = useHooks();
 
 	return (
@@ -21,7 +21,7 @@ const CreateDateRangeFilter = () => {
 				<DatePicker
 					disableFuture
 					label='Created at - Start Date'
-					value={startDate}
+					value={initialStartDate}
 					onChange={handleStartDateChange}
 					sx={{
 						'& .MuiInputBase-root': {
@@ -32,23 +32,23 @@ const CreateDateRangeFilter = () => {
 						}
 					}}
 					slotProps={{
+						actionBar: {
+							actions: ['clear']
+						},
 						textField: {
 							size: 'small',
 							color: 'secondary',
 							id: 'created-start',
 							name: 'created-start',
-							error: isInvalidDate,
-							helperText: isInvalidDate
-								? 'Please set a valid date'
-								: ''
+							error: !!error,
+							helperText: error
 						}
 					}}
 				/>
-				{' - '}
 				<DatePicker
 					disableFuture
 					label='Created at - End Date'
-					value={endDate}
+					value={initialEndDate}
 					onChange={handleEndDateChange}
 					sx={{
 						'& .MuiInputBase-root': {
@@ -59,15 +59,16 @@ const CreateDateRangeFilter = () => {
 						}
 					}}
 					slotProps={{
+						actionBar: {
+							actions: ['clear']
+						},
 						textField: {
 							size: 'small',
 							color: 'secondary',
 							id: 'created-end',
 							name: 'created-end',
-							error: isInvalidDate,
-							helperText: isInvalidDate
-								? 'Please set a valid date.'
-								: ''
+							error: !!error,
+							helperText: error
 						}
 					}}
 				/>

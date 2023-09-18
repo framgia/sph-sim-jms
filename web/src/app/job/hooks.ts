@@ -1,8 +1,9 @@
 import { axiosInstance } from '@/utils/services/axios';
-import { JobSchema, JobTable, JobTableRow } from '@/utils/types/job';
+import { JobQuery, JobSchema, JobTable, JobTableRow } from '@/utils/types/job';
 import { ScheduleSchema } from '@/utils/types/schedule';
+import { Moment } from 'moment';
 import { useContext, useEffect, useState } from 'react';
-import { JobListContext } from './context';
+import { JobListContext, JobQueryContext } from './context';
 
 export const useJobListContext = (): JobTable => {
     const jobs = useContext(JobListContext);
@@ -14,6 +15,16 @@ export const useJobListContext = (): JobTable => {
     return jobs;
 };
 
+export const useJobQueryContext = (): JobQuery => {
+    const query = useContext(JobQueryContext);
+
+    if (query === undefined) {
+        throw new Error('Missing JobQueryContext');
+    }
+
+    return query;
+};
+
 export const useHooks = () => {
     const [page, setPage] = useState(1);
     const [perPage] = useState(12);
@@ -23,13 +34,36 @@ export const useHooks = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | undefined>();
 
+    const [isFilter, setIsFilter] = useState(false);
+    const [tag, setTag] = useState('');
+    const [status, setStatus] = useState('');
+    const [startDate, setStartDate] = useState<Moment | null>(null);
+    const [endDate, setEndDate] = useState<Moment | null>(null);
+
+    const params: { page: number, perPage: number, tag?: string, status?: string, startDate?: string,
+    endDate?: string } = {
+        page, perPage,
+    };
+
+    if(isFilter) {
+        if (tag) {
+            params.tag = tag;
+        }
+    
+        if (status) {
+            params.status = status;
+        }
+    
+        if (startDate && endDate) {
+            params.startDate = startDate.format("MM-DD-YYYY");
+            params.endDate = endDate.format("MM-DD-YYYY");
+        }
+    }
+
     useEffect(() => {
         axiosInstance
 			.get('/jobs', {
-				params: {
-					page,
-					perPage
-				}
+				params
 			})
 			.then((response) => {
                 setCount(response?.data.count);
@@ -42,7 +76,7 @@ export const useHooks = () => {
                 setIsLoading(false);
                 setError('Something went wrong.');
 			});
-    }, [page, perPage]);
+    }, [page, perPage, tag, status, startDate, endDate, isFilter]);
 
 	return {        
         jobs,
@@ -52,6 +86,16 @@ export const useHooks = () => {
         isLoading,
         error,
         setPage,
+        tag,
+        setTag,
+        status,
+        setStatus,
+        startDate,
+        setStartDate,
+        endDate,
+        setEndDate,
+        isFilter,
+        setIsFilter
     };
 };
 
@@ -81,7 +125,7 @@ const formatSchedules = (schedules: ScheduleSchema[]): string[] => {
     return scheduleData;
 };
 
-const formatEnum = (value: string): string => {
+export const formatEnum = (value: string): string => {
     let words = value.split('_');
     words = words.map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
     return words.join(' ');

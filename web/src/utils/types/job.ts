@@ -1,3 +1,4 @@
+import { Moment } from 'moment';
 import { CustomerSchema } from './customer';
 import { EstimationSchema } from './estimation';
 import { ScheduleSchema } from './schedule';
@@ -51,4 +52,17 @@ export interface JobSchema {
 export interface JobListType {
     jobs: JobSchema[];
     count: number
+}
+
+export interface JobQuery {
+    tag: string;
+    setTag: (value: string) => void;
+    status: string;
+    setStatus: (value: string) => void;
+    startDate: Moment | null;
+    setStartDate: (date: Moment | null) => void;
+    endDate: Moment | null;
+    setEndDate: (date: Moment | null) => void;
+    isFilter: boolean;
+    setIsFilter: (value: boolean) => void;
 }

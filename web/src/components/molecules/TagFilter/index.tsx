@@ -1,10 +1,9 @@
 import styles from '@/styles/Filter.module.css';
-import { Tags } from '@/utils/constants/tags';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { useHooks } from './hooks';
 
 const TagFilter = () => {
-	const { tag, handleChange } = useHooks();
+	const { tag, tagOptions, handleChange } = useHooks();
 
 	return (
 		<FormControl sx={{ width: 180 }}>
@@ -20,8 +19,11 @@ const TagFilter = () => {
 				color='secondary'
 				onChange={handleChange}
 				className={styles.input}>
-				{Tags.map((tag) => (
-					<MenuItem key={tag.id} value={tag.value}>
+				<MenuItem key={'clear'} value={''}>
+					<em>None</em>
+				</MenuItem>
+				{tagOptions.map((tag, key) => (
+					<MenuItem key={key} value={tag.value}>
 						{tag.name}
 					</MenuItem>
 				))}

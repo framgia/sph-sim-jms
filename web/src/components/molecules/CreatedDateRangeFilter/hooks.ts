@@ -1,30 +1,48 @@
-import moment, { type Moment } from 'moment';
+import { useJobQueryContext } from '@/app/job/hooks';
+import { type Moment } from 'moment';
 import { useEffect, useState } from 'react';
 
 export const useHooks = () => {
-    const [startDate, setStartDate] = useState<Moment | null>(moment().startOf('month'));
-	const [endDate, setEndDate] = useState<Moment | null>(moment());
-    const [isInvalidDate, setIsInvalidDate] = useState(false);
+    const { setStartDate, setEndDate } = useJobQueryContext();
+    const [initialStartDate, setInitialStartDate] = useState<Moment | null>(null);
+    const [initialEndDate, setInitialEndDate] = useState<Moment | null>(null);
+    const [error, setError] = useState('');
 
     const handleStartDateChange = (date: Moment | null): void => {
-		setStartDate(date);
+		setInitialStartDate(date);
 	};
 
 	const handleEndDateChange = (date: Moment | null): void => {
-		setEndDate(date);
+		setInitialEndDate(date);
 	};
 
     useEffect(() => {
-        if (startDate && endDate) {
-            setIsInvalidDate(endDate <= startDate);
+        if (initialStartDate && !initialEndDate || initialEndDate && !initialStartDate) {
+            setError('Both start and end dates must be set');
         }
-    }, [startDate, endDate]);
+
+        if(!initialStartDate && !initialEndDate) {
+            setError('');
+            setStartDate(null);
+            setEndDate(null);
+        }
+
+        if (initialStartDate && initialEndDate) {
+            if (initialEndDate < initialStartDate) {
+                setError('Please set a vaild date');
+            } else {
+                setError('');
+                setStartDate(initialStartDate);
+                setEndDate(initialEndDate);
+            }
+        }
+    }, [initialStartDate, initialEndDate]);
 
     return {
-        startDate,
+        error,
+        initialStartDate,
         handleStartDateChange,
-        endDate,
+        initialEndDate,
         handleEndDateChange,
-        isInvalidDate
     };
 };

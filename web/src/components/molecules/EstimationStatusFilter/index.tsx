@@ -1,10 +1,9 @@
 import styles from '@/styles/Filter.module.css';
-import { EstimationStatus } from '@/utils/constants/estimationStatus';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { useHooks } from './hooks';
 
 const EstimationStatusFilter = () => {
-	const { status, handleChange } = useHooks();
+	const { status, statusOptions, handleChange } = useHooks();
 
 	return (
 		<FormControl sx={{ width: 180 }}>
@@ -20,9 +19,12 @@ const EstimationStatusFilter = () => {
 				color='secondary'
 				onChange={handleChange}
 				className={styles.input}>
-				{EstimationStatus.map((status) => (
-					<MenuItem key={status.id} value={status.status}>
-						{status.status}
+				<MenuItem key={'clear'} value={''}>
+					<em>None</em>
+				</MenuItem>
+				{statusOptions.map((status, key) => (
+					<MenuItem key={key} value={status.value}>
+						{status.name}
 					</MenuItem>
 				))}
 			</Select>
