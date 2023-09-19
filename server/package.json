@@ -28,6 +28,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "jest-junit": "^16.0.0",
+    "meilisearch": "^0.34.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
   },
@@ -74,11 +75,22 @@
       "**/*.{js,ts}"
     ],
     "coverageDirectory": "../test/coverage",
-    "coverageReporters": ["clover", "json", "lcov", "text"],
+    "coverageReporters": [
+      "clover",
+      "json",
+      "lcov",
+      "text"
+    ],
     "testEnvironment": "node",
     "reporters": [
       "default",
-      ["jest-junit", {"outputDirectory": "./test/result", "outputName": "report.xml"}]
+      [
+        "jest-junit",
+        {
+          "outputDirectory": "./test/result",
+          "outputName": "report.xml"
+        }
+      ]
     ]
   },
   "prisma": {

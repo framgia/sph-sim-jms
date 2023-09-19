@@ -26,7 +26,7 @@ describe('JobsController', () => {
 
   describe('findAll', () => {
     it('should return a list of jobs with the total number of jobs', async () => {
-      const jobQuery = { page: 1, perPage: 2, tag: null, status: null, startDate: null, endDate: null };
+      const jobQuery = { page: 1, perPage: 2, tag: null, status: null, startDate: null, endDate: null, search: null };
       const jobList = {
         jobs: [
           {
@@ -72,7 +72,7 @@ describe('JobsController', () => {
     it('should return a filtered list of jobs with total number of filtered jobs', async () => {
       const mockTags = [$Enums.Tag.TAG_A];
       const mockStatus = $Enums.Status.APPROVED;
-      const jobQuery = { page: 1, perPage: 2, tag: mockTags[0], status: mockStatus, startDate: null, endDate: null };
+      const jobQuery = { page: 1, perPage: 2, tag: mockTags[0], status: mockStatus, startDate: null, endDate: null, search: null };
       
       const jobList = {
         jobs: [

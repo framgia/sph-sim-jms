@@ -44,7 +44,18 @@ services:
     container_name: db-postgresql
     networks:
       - jms
+
+  meilisearch:
+    image: getmeili/meilisearch:v1.3
+    ports:
+      - "7700:7700"
+    volumes:
+      - meilisearch_data:/data.ms
+    container_name: meilisearch
+    networks:
+      - jms
 volumes:
   pgdata:
   web_node_modules:
   server_node_modules:
+  meilisearch_data:
