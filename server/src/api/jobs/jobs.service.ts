@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../database/connection.service';
-import { SearchService } from '../../search/search.service';
 import { convertToDocuments } from '../../utils/helpers/convertToDocuments';
 import { convertToJobs } from '../../utils/helpers/convertToJobs';
+import { SearchService } from '../search/search.service';
 import { JobListDto } from './dto/job-list.dto';
 import { JobQueryDto } from './dto/job-query.dto';
 

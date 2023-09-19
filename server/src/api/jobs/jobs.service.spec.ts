@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { $Enums } from '@prisma/client';
 import { PrismaService } from '../../database/connection.service';
-import { SearchService } from '../../search/search.service';
+import { SearchService } from '../search/search.service';
 import { JobsService } from './jobs.service';
 
 describe('JobsService', () => {
