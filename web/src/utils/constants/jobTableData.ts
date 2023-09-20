@@ -1,6 +1,6 @@
 import { JobTableRow, TableColumn } from '../types/job';
 
-export const JobColumns : TableColumn[] = [
+export const JobColumns: TableColumn[] = [
 	{ key: 'title', label: 'Job Title', width: 200 },
 	{ key: 'customer', label: 'Customer Name', width: 170 },
 	{ key: 'tags', label: 'Tags', width: 160 },

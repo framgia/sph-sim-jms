@@ -1,6 +1,6 @@
 'use client';
 
-import Pagination from '@/components/atoms/Pagination';
+import Pagination from '@/components/molecules/Pagination';
 import JobListTable from '@/components/organisms/JobListTable';
 import SearchFilterHeader from '@/components/organisms/SearchFilterHeader';
 import { JobColumns, JobData } from '@/utils/constants/jobTableData';

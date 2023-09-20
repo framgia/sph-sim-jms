@@ -2,10 +2,10 @@ import { Moment } from 'moment';
 import { useState } from 'react';
 
 export const useHooks = () => {
-    const [startDate, setStartDate] = useState<Moment | null>();
+	const [startDate, setStartDate] = useState<Moment | null>();
 	const [endDate, setEndDate] = useState<Moment | null>();
 
-    const handleStartDateChange = (date: Moment | null): void => {
+	const handleStartDateChange = (date: Moment | null): void => {
 		setStartDate(date);
 	};
 
@@ -13,10 +13,10 @@ export const useHooks = () => {
 		setEndDate(date);
 	};
 
-    return {
-        startDate,
-        handleStartDateChange,
-        endDate,
-        handleEndDateChange
-    };
+	return {
+		startDate,
+		handleStartDateChange,
+		endDate,
+		handleEndDateChange
+	};
 };

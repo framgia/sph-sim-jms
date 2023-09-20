@@ -1,8 +1,6 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { useJobListContext } from '@/app/job/hooks';
 import StatusChip from '@/components/atoms/StatusChip';
-import { TableColumn } from '@/utils/constants/jobTableData';
-import { JobTableRow } from '@/utils/types/job';
+import { JobTableRow, TableColumn } from '@/utils/types/job';
 import {
 	Box,
 	Paper,
@@ -15,9 +13,10 @@ import {
 	TableRow,
 	Typography
 } from '@mui/material';
+import { useHooks } from './hooks';
 
 const JobListTable = (): JSX.Element => {
-	const { columns, data } = useJobListContext();
+	const { columns, data } = useHooks();
 
 	const renderTableCellContent = (
 		column: TableColumn,

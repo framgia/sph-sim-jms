@@ -23,6 +23,6 @@ export interface JobTableRow {
 }
 
 export interface JobTable {
-    columns: TableColumn[];
-    data: JobTableRow[];
+	columns: TableColumn[];
+	data: JobTableRow[];
 }
