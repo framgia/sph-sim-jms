@@ -6,7 +6,7 @@ describe('JobsController', () => {
   let jobController: JobsController;
 
   const mockJobService = {
-    findAll: jest.fn()
+    findAll: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -53,15 +53,15 @@ describe('JobsController', () => {
             pipelinePhase: null,
             createdAt: new Date("2023-09-07T09:38:42.296Z"),
             updatedAt: new Date("2023-09-07T09:38:42.296Z"),
-          }
+          },
         ],
-        count: 2
+        count: 2,
       };
 
       jest.spyOn(mockJobService, 'findAll').mockResolvedValue(jobList);
 
       const jobs = await jobController.findAll(jobQuery);
-      
+
       expect(mockJobService.findAll).toHaveBeenCalledWith(jobQuery);
       expect(jobs).toEqual(jobList);
     });

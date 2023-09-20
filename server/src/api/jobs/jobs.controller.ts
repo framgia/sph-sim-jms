@@ -7,13 +7,13 @@ import { JobsService } from './jobs.service';
 @ApiTags('jobs')
 @Controller('jobs')
 export class JobsController {
-  constructor(private readonly jobsService: JobsService) {}
+  constructor(private readonly jobsService: JobsService) { }
 
   @Get()
   @UsePipes(new ValidationPipe({ transform: true }))
   async findAll(@Query() jobQuery: JobQueryDto): Promise<JobListDto> {
     const jobs = await this.jobsService.findAll(jobQuery);
-    
+
     return jobs;
   }
 }

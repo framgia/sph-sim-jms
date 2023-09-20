@@ -7,4 +7,4 @@ import { JobsService } from './jobs.service';
   controllers: [JobsController],
   providers: [JobsService, PrismaService],
 })
-export class JobsModule {}
+export class JobsModule { }
