@@ -1,4 +1,3 @@
-/* eslint-disable no-mixed-spaces-and-tabs */
 import StatusChip from '@/components/atoms/StatusChip';
 import { JobTableRow, TableColumn } from '@/utils/types/job';
 import {
