@@ -1,15 +1,15 @@
 import { ChangeEvent, useState } from 'react';
 
 export const useHooks = () => {
-    const [searchKeyword, setSearchKeyword] = useState('');
+  const [searchKeyword, setSearchKeyword] = useState('');
 
-	const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-		setSearchKeyword(e.target.value);
-	};
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchKeyword(e.target.value);
+  };
 
-    return {
-        searchKeyword,
-        handleSearch
-    };
+  return {
+    searchKeyword,
+    handleSearch
+  };
 
 };

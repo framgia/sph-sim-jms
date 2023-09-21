@@ -5,19 +5,19 @@ import { theme } from '@/assets/theme';
 import Wrapper from './wrapper';
 
 export const metadata: Metadata = {
-	title: 'JMS'
+  title: 'JMS'
 };
 
 export default function RootLayout({
-	children
+  children
 }: {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-	return (
-		<html lang='en'>
-			<ThemeProvider theme={theme}>
-				<Wrapper>{children}</Wrapper>
-			</ThemeProvider>
-		</html>
-	);
+  return (
+    <html lang='en'>
+      <ThemeProvider theme={theme}>
+        <Wrapper>{children}</Wrapper>
+      </ThemeProvider>
+    </html>
+  );
 }

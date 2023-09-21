@@ -1,7 +1,7 @@
 export interface EstimationSchema {
-    id: number;
-    title: string;
-    document: string;
-    totalCost: number;
-    status: string;
+  id: number;
+  title: string;
+  document: string;
+  totalCost: number;
+  status: string;
 }
