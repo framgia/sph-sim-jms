@@ -1,8 +1,8 @@
 import { Box, Stack, Typography } from '@mui/material';
 import { FC } from 'react';
 
-import { Logo } from '../../assets/icons/Logo';
-import HeaderProfile from './HeaderProfile';
+import { Logo } from '../../../assets/icons/Logo';
+import HeaderProfile from '../HeaderProfile';
 
 interface Props {
   height?: number | string;

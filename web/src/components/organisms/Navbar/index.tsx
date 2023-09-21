@@ -5,7 +5,7 @@ import { Box, ButtonBase } from '@mui/material';
 import { FC } from 'react';
 
 import { Menus } from '@/utils/constants/navbarMenu';
-import NavBarItem from '../molecules/NavBarItem';
+import NavBarItem from '../../molecules/NavBarItem';
 
 interface Props {
   expanded?: boolean;
