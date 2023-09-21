@@ -8,10 +8,6 @@ import { usePathname } from "next/navigation";
 import { Link, Typography } from "@mui/material";
 import { Dispatch, SetStateAction } from "react";
 
-export const handleSubmit = (formValues: FormValuesType) => {
-  alert(JSON.stringify(formValues, null, 2));
-};
-
 export const breadCrumbs = (): JSX.Element[] => {
   const pathname = usePathname();
 

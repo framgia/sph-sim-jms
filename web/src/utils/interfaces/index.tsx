@@ -21,6 +21,7 @@ export interface ScheduleFormType {
   endDate: string;
   endTime: string;
 }
+[];
 
 export interface FormValuesType {
   customer_registration: {

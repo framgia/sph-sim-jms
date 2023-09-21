@@ -1,24 +1,25 @@
-import { FC, useRef, useState, useEffect } from "react";
-import { Box, Typography, TextField, Button, Grid } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import React, { FC, useRef, useState, useEffect } from "react";
+import { Box, Typography, TextField, Button, Grid } from "@mui/material";
 import {
-  handleSave,
-  handleEdit,
+  handleCancel,
   handleInputChange,
   handleInputProps,
+  handleSave,
 } from "./hooks";
-import React from "react";
-import { CustomerFormType } from "@/utils/interfaces";
-import { initialFormValues } from "@/utils/constants/JobCustomerDummyValues";
+import { useJobDetailContext } from "@/app/job/detail/context";
 
-type Props = {
-  onCustomerData: (data: CustomerFormType) => void;
-};
-
-const JobCustomerSection: FC<Props> = ({ onCustomerData }) => {
+const JobCustomerSection: FC = () => {
   const firstNameRef = useRef<HTMLInputElement | null>(null);
   const [editEnabled, setEditEnabled] = useState<boolean>(false);
-  const [formValues, setFormValues] = useState(initialFormValues);
+
+  const {
+    formValues,
+    setFormValues,
+    setButtonState,
+    customerDetails,
+    setCustomerDetails,
+  } = useJobDetailContext();
 
   useEffect(() => {
     if (editEnabled && firstNameRef.current) {
@@ -43,7 +44,7 @@ const JobCustomerSection: FC<Props> = ({ onCustomerData }) => {
           <EditIcon
             fontSize="small"
             style={{ marginLeft: "4px", cursor: "pointer" }}
-            onClick={() => handleEdit(editEnabled, setEditEnabled)}
+            onClick={() => setEditEnabled(!editEnabled)}
           />
         )}
       </Typography>
@@ -56,10 +57,12 @@ const JobCustomerSection: FC<Props> = ({ onCustomerData }) => {
           name="firstName"
           size="medium"
           fullWidth
-          defaultValue={formValues.firstName}
+          value={customerDetails.firstName}
           InputProps={handleInputProps(editEnabled)}
           inputRef={firstNameRef}
-          onChange={(e) => handleInputChange(e, formValues, setFormValues)}
+          onChange={(e) =>
+            handleInputChange(e, customerDetails, setCustomerDetails)
+          }
         />
         <TextField
           id="last-name"
@@ -68,9 +71,11 @@ const JobCustomerSection: FC<Props> = ({ onCustomerData }) => {
           name="lastName"
           size="medium"
           fullWidth
-          defaultValue={formValues.lastName}
+          value={customerDetails.lastName}
           InputProps={handleInputProps(editEnabled)}
-          onChange={(e) => handleInputChange(e, formValues, setFormValues)}
+          onChange={(e) =>
+            handleInputChange(e, customerDetails, setCustomerDetails)
+          }
         />
       </Box>
       <Box sx={{ display: "flex", gap: "8px" }}>
@@ -81,9 +86,11 @@ const JobCustomerSection: FC<Props> = ({ onCustomerData }) => {
           name="contact"
           size="medium"
           fullWidth
-          defaultValue={formValues.contact}
+          value={customerDetails.contact}
           InputProps={handleInputProps(editEnabled)}
-          onChange={(e) => handleInputChange(e, formValues, setFormValues)}
+          onChange={(e) =>
+            handleInputChange(e, customerDetails, setCustomerDetails)
+          }
         />
         <TextField
           id="email"
@@ -92,9 +99,11 @@ const JobCustomerSection: FC<Props> = ({ onCustomerData }) => {
           name="email"
           size="medium"
           fullWidth
-          defaultValue={formValues.email}
+          value={customerDetails.email}
           InputProps={handleInputProps(editEnabled)}
-          onChange={(e) => handleInputChange(e, formValues, setFormValues)}
+          onChange={(e) =>
+            handleInputChange(e, customerDetails, setCustomerDetails)
+          }
         />
       </Box>
       <TextField
@@ -104,9 +113,11 @@ const JobCustomerSection: FC<Props> = ({ onCustomerData }) => {
         name="address"
         size="medium"
         fullWidth
-        defaultValue={formValues.address}
+        value={customerDetails.address}
         InputProps={handleInputProps(editEnabled)}
-        onChange={(e) => handleInputChange(e, formValues, setFormValues)}
+        onChange={(e) =>
+          handleInputChange(e, customerDetails, setCustomerDetails)
+        }
       />
       {editEnabled && (
         <Grid container spacing={1}>
@@ -117,8 +128,10 @@ const JobCustomerSection: FC<Props> = ({ onCustomerData }) => {
                   true,
                   editEnabled,
                   setEditEnabled,
+                  customerDetails,
                   formValues,
-                  onCustomerData
+                  setFormValues,
+                  setButtonState
                 )
               }
               variant="contained"
@@ -130,12 +143,11 @@ const JobCustomerSection: FC<Props> = ({ onCustomerData }) => {
           <Grid item>
             <Button
               onClick={() =>
-                handleSave(
-                  false,
+                handleCancel(
                   editEnabled,
                   setEditEnabled,
                   formValues,
-                  onCustomerData
+                  setCustomerDetails
                 )
               }
               variant="outlined"

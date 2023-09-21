@@ -1,4 +1,4 @@
-import { CustomerFormType } from "@/utils/interfaces";
+import { CustomerFormType, FormValuesType } from "@/utils/interfaces";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 
 export const handleInputProps = (editEnabled?: boolean) => {
@@ -9,17 +9,17 @@ export const handleEdit = (
   editEnabled: boolean,
   setEditEnabled: Dispatch<SetStateAction<boolean>>
 ) => {
-  return setEditEnabled(!editEnabled);
+  setEditEnabled(!editEnabled);
 };
 
 export const handleInputChange = (
   event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  formValues: CustomerFormType,
-  setFormValues: Dispatch<SetStateAction<CustomerFormType>>
-): void => {
+  customerDetails: CustomerFormType,
+  setCustomerDetails: (initialFormValues: CustomerFormType) => void
+) => {
   const { name, value } = event.target;
-  setFormValues({
-    ...formValues,
+  setCustomerDetails({
+    ...customerDetails,
     [name]: value,
   });
 };
@@ -28,13 +28,25 @@ export const handleSave = (
   state: boolean,
   editEnabled: boolean,
   setEditEnabled: Dispatch<SetStateAction<boolean>>,
-  formValues: CustomerFormType,
-  onCustomerData: (data: CustomerFormType) => void
+  customerDetails: CustomerFormType,
+  formValues: FormValuesType,
+  setFormValues: (newFormValue: FormValuesType) => void,
+  setButtonState: (newButtonState: boolean) => void
+) => {
+  setButtonState(state);
+  setEditEnabled(!editEnabled);
+  setFormValues({
+    ...formValues,
+    ["customer_registration"]: customerDetails,
+  });
+};
+
+export const handleCancel = (
+  editEnabled: boolean,
+  setEditEnabled: Dispatch<SetStateAction<boolean>>,
+  formValues: FormValuesType,
+  setCustomerDetails: (newFormValue: CustomerFormType) => void,
 ) => {
   setEditEnabled(!editEnabled);
-  if (state) {
-    onCustomerData(formValues);
-  } else {
-    setEditEnabled(false);
-  }
+  setCustomerDetails(formValues.customer_registration);
 };

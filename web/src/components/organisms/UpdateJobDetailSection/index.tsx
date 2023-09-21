@@ -11,29 +11,31 @@ import {
   Typography,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import { InformationFormType } from "@/utils/interfaces";
-import { initialFormValues } from "@/utils/constants/JobDetailDummyValues";
 
 import ModeOfPaymentsRadioGroup from "../../molecules/ModeOfPaymentsRadioGroup";
 import PersonInChargeSelectDropdown from "../../molecules/PersonInChargeSelectDropdown";
 import {
   handleEdit,
-  handleSave,
   handleTagChips,
   handleMOPChange,
   handleInputProps,
   handleInputChange,
   handlePersonInChargeChange,
+  handleSave,
+  handleCancel,
 } from "./hooks";
+import { useJobDetailContext } from "@/app/job/detail/context";
 
-type Props = {
-  onJobDetailData: (data: InformationFormType) => void;
-};
-
-const JobDetailSection: FC<Props> = ({ onJobDetailData }) => {
+const JobDetailSection: FC = () => {
   const jobTitle = useRef<HTMLInputElement | null>(null);
   const [editEnabled, setEditEnabled] = useState<boolean>(false);
-  const [formValues, setFormValues] = useState(initialFormValues);
+  const {
+    informationDetails,
+    setInformationDetails,
+    formValues,
+    setFormValues,
+    setButtonState,
+  } = useJobDetailContext();
 
   useEffect(() => {
     if (editEnabled && jobTitle.current) {
@@ -77,18 +79,24 @@ const JobDetailSection: FC<Props> = ({ onJobDetailData }) => {
             </TableCell>
             <TableCell>
               {!editEnabled ? (
-                <Typography variant="body2b">{formValues.jobTitle}</Typography>
+                <Typography variant="body2b">
+                  {informationDetails.jobTitle}
+                </Typography>
               ) : (
                 <TextField
                   variant="outlined"
                   size="medium"
                   name="jobTitle"
                   fullWidth
-                  defaultValue={formValues.jobTitle}
+                  defaultValue={informationDetails.jobTitle}
                   InputProps={handleInputProps(editEnabled)}
                   inputRef={jobTitle}
                   onChange={(e) =>
-                    handleInputChange(e, formValues, setFormValues)
+                    handleInputChange(
+                      e,
+                      informationDetails,
+                      setInformationDetails
+                    )
                   }
                 />
               )}
@@ -106,17 +114,23 @@ const JobDetailSection: FC<Props> = ({ onJobDetailData }) => {
             </TableCell>
             <TableCell>
               {!editEnabled ? (
-                <Typography variant="body2b">{formValues.jobType}</Typography>
+                <Typography variant="body2b">
+                  {informationDetails.jobType}
+                </Typography>
               ) : (
                 <TextField
                   variant="outlined"
                   size="medium"
                   name="jobType"
                   fullWidth
-                  defaultValue={formValues.jobType}
+                  defaultValue={informationDetails.jobType}
                   InputProps={handleInputProps(editEnabled)}
                   onChange={(e) =>
-                    handleInputChange(e, formValues, setFormValues)
+                    handleInputChange(
+                      e,
+                      informationDetails,
+                      setInformationDetails
+                    )
                   }
                 />
               )}
@@ -135,14 +149,18 @@ const JobDetailSection: FC<Props> = ({ onJobDetailData }) => {
             <TableCell>
               {!editEnabled ? (
                 <Typography variant="body2b">
-                  {formValues.personInCharge?.firstName}
+                  {informationDetails.personInCharge?.firstName}
                 </Typography>
               ) : (
-                formValues.personInCharge !== undefined && (
+                informationDetails.personInCharge !== undefined && (
                   <PersonInChargeSelectDropdown
-                    personInChargeId={formValues.personInCharge.id}
+                    personInChargeId={informationDetails.personInCharge.id}
                     onChange={(e) =>
-                      handlePersonInChargeChange(e, formValues, setFormValues)
+                      handlePersonInChargeChange(
+                        e,
+                        informationDetails,
+                        setInformationDetails
+                      )
                     }
                   />
                 )
@@ -160,7 +178,11 @@ const JobDetailSection: FC<Props> = ({ onJobDetailData }) => {
               <Typography variant="label2b"> Tags </Typography>
             </TableCell>
             <TableCell>
-              {handleTagChips(editEnabled, formValues, setFormValues)}
+              {handleTagChips(
+                editEnabled,
+                informationDetails,
+                setInformationDetails
+              )}
             </TableCell>
           </TableRow>
           {/* Remarks */}
@@ -175,7 +197,9 @@ const JobDetailSection: FC<Props> = ({ onJobDetailData }) => {
             </TableCell>
             <TableCell>
               {!editEnabled ? (
-                <Typography variant="body2b">{formValues.remarks}</Typography>
+                <Typography variant="body2b">
+                  {informationDetails.remarks}
+                </Typography>
               ) : (
                 <TextField
                   variant="outlined"
@@ -184,10 +208,14 @@ const JobDetailSection: FC<Props> = ({ onJobDetailData }) => {
                   fullWidth
                   multiline
                   rows={4}
-                  defaultValue={formValues.remarks}
+                  defaultValue={informationDetails.remarks}
                   InputProps={handleInputProps(editEnabled)}
                   onChange={(e) =>
-                    handleInputChange(e, formValues, setFormValues)
+                    handleInputChange(
+                      e,
+                      informationDetails,
+                      setInformationDetails
+                    )
                   }
                 />
               )}
@@ -206,7 +234,7 @@ const JobDetailSection: FC<Props> = ({ onJobDetailData }) => {
               </TableCell>
               <TableCell>
                 <Typography variant="body2b">
-                  {formValues.modeOfPayment}
+                  {informationDetails.modeOfPayment}
                 </Typography>
               </TableCell>
             </TableRow>
@@ -217,8 +245,10 @@ const JobDetailSection: FC<Props> = ({ onJobDetailData }) => {
       {editEnabled && (
         <>
           <ModeOfPaymentsRadioGroup
-            defaultMOP={formValues.modeOfPayment}
-            onChange={(e) => handleMOPChange(e, formValues, setFormValues)}
+            defaultMOP={informationDetails.modeOfPayment}
+            onChange={(e) =>
+              handleMOPChange(e, informationDetails, setInformationDetails)
+            }
           />
           <Grid container spacing={1}>
             <Grid item>
@@ -228,8 +258,10 @@ const JobDetailSection: FC<Props> = ({ onJobDetailData }) => {
                     true,
                     editEnabled,
                     setEditEnabled,
+                    informationDetails,
                     formValues,
-                    onJobDetailData
+                    setFormValues,
+                    setButtonState
                   )
                 }
                 variant="contained"
@@ -241,12 +273,11 @@ const JobDetailSection: FC<Props> = ({ onJobDetailData }) => {
             <Grid item>
               <Button
                 onClick={() =>
-                  handleSave(
-                    false,
+                  handleCancel(
                     editEnabled,
                     setEditEnabled,
                     formValues,
-                    onJobDetailData
+                    setInformationDetails
                   )
                 }
                 variant="outlined"

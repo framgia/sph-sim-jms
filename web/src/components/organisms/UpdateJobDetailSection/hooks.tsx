@@ -1,4 +1,4 @@
-import { InformationFormType } from "@/utils/interfaces";
+import { FormValuesType, InformationFormType } from "@/utils/interfaces";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { PICDummyValues } from "@/utils/constants/PICDummyValues";
 import { Chip, SelectChangeEvent, Typography } from "@mui/material";
@@ -8,7 +8,7 @@ export const users = PICDummyValues;
 export const handlePersonInChargeChange = (
   e: SelectChangeEvent,
   formValues: InformationFormType,
-  setFormValues: Dispatch<SetStateAction<InformationFormType>>
+  setFormValues: (JobInformationDummy: InformationFormType) => void
 ) => {
   const { value } = e.target;
   const userData = users.find((user) => user.id === Number(value));
@@ -24,7 +24,7 @@ export const handlePersonInChargeChange = (
 export const handleMOPChange = (
   e: SelectChangeEvent,
   formValues: InformationFormType,
-  setFormValues: Dispatch<SetStateAction<InformationFormType>>
+  setFormValues: (JobInformationDummy: InformationFormType) => void
 ) => {
   const { value } = e.target;
   setFormValues({
@@ -36,13 +36,13 @@ export const handleMOPChange = (
 export const handleTagChips = (
   editEnabled: boolean,
   formValues: InformationFormType,
-  setFormValues: Dispatch<SetStateAction<InformationFormType>>
+  setFormValues: (JobInformationDummy: InformationFormType) => void
 ): JSX.Element[] => {
   const { tags } = formValues;
   const handleDelete = (
     index: number,
     tagArray: string[],
-    setFormValues: Dispatch<SetStateAction<InformationFormType>>
+    setFormValues: (JobInformationDummy: InformationFormType) => void
   ) => {
     const updatedItems = [...tagArray];
     updatedItems.splice(index, 1);
@@ -81,12 +81,12 @@ export const handleEdit = (
 
 export const handleInputChange = (
   event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  formValues: InformationFormType,
-  setFormValues: Dispatch<SetStateAction<InformationFormType>>
+  informationDetails: InformationFormType,
+  setInformationDetails: (JobInformationDummy: InformationFormType) => void
 ): void => {
   const { name, value } = event.target;
-  setFormValues({
-    ...formValues,
+  setInformationDetails({
+    ...informationDetails,
     [name]: value,
   });
 };
@@ -95,13 +95,25 @@ export const handleSave = (
   state: boolean,
   editEnabled: boolean,
   setEditEnabled: Dispatch<SetStateAction<boolean>>,
-  formValues: InformationFormType,
-  onJobDetailData: (data: InformationFormType) => void
+  informationDetails: InformationFormType,
+  formValues: FormValuesType,
+  setFormValues: (newFormValue: FormValuesType) => void,
+  setButtonState: (newButtonState: boolean) => void
+) => {
+  setButtonState(state);
+  setEditEnabled(!editEnabled);
+  setFormValues({
+    ...formValues,
+    ["job_information"]: informationDetails,
+  });
+};
+
+export const handleCancel = (
+  editEnabled: boolean,
+  setEditEnabled: Dispatch<SetStateAction<boolean>>,
+  formValues: FormValuesType,
+  setInformationDetails: (newFormValue: InformationFormType) => void
 ) => {
   setEditEnabled(!editEnabled);
-  if (state) {
-    onJobDetailData(formValues);
-  } else {
-    setEditEnabled(false);
-  }
+  setInformationDetails(formValues.job_information);
 };

@@ -1,4 +1,4 @@
-import { Moment } from "moment";
+import moment from "moment";
 import React, { FC, useEffect, useRef, useState } from "react";
 
 import EditIcon from "@mui/icons-material/Edit";
@@ -8,41 +8,22 @@ import {
   TimePicker,
   LocalizationProvider,
 } from "@mui/x-date-pickers";
+import { useJobDetailContext } from "@/app/job/detail/context";
+import { handleCancel, handleEdit, handleSave, setValueForm } from "./hooks";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import {
-  handleEdit,
-  handleSave,
-  updateEndDate,
-  updateEndTime,
-  updateStartDate,
-  updateStartTime,
-} from "./hooks";
-import moment from "moment";
-import { ScheduleFormType } from "@/utils/interfaces";
-import { initialValues } from "@/utils/constants/JobScheduleDummyValues";
 import { Box, Button, Grid, IconButton, Typography } from "@mui/material";
 
-type Props = {
-  onWorkScheduleData: (data: ScheduleFormType) => void;
-};
-
-const JobWorkScheduleSection: FC<Props> = ({ onWorkScheduleData }) => {
+const JobWorkScheduleSection: FC = () => {
   const startDateRef = useRef<HTMLInputElement | null>(null);
   const [editEnabled, setEditEnabled] = useState<boolean>(false);
-  const [formValues, setFormValues] = useState<ScheduleFormType>(initialValues);
 
-  const [startDate, setStartDate] = React.useState<Moment | null>(
-    moment(formValues.startDate)
-  );
-  const [startTime, setStartTime] = React.useState<Moment | null>(
-    moment(formValues.startTime)
-  );
-  const [endDate, setEndDate] = React.useState<Moment | null>(
-    moment(formValues.endDate)
-  );
-  const [endTime, setEndTime] = React.useState<Moment | null>(
-    moment(formValues.endTime)
-  );
+  const {
+    scheduleDetails,
+    setScheduleDetails,
+    formValues,
+    setFormValues,
+    setButtonState,
+  } = useJobDetailContext();
 
   useEffect(() => {
     if (editEnabled && startDateRef.current) {
@@ -72,56 +53,84 @@ const JobWorkScheduleSection: FC<Props> = ({ onWorkScheduleData }) => {
         )}
       </Typography>
 
-      <Box sx={{ display: "flex", gap: "8px", alignItems: "center" }}>
-        <LocalizationProvider dateAdapter={AdapterMoment}>
-          <DatePicker
-            label="Start Date"
-            value={startDate}
-            readOnly={!editEnabled}
-            onChange={(e) =>
-              updateStartDate(e, setStartDate, formValues, setFormValues)
-            }
-            inputRef={startDateRef}
-          />
-          <TimePicker
-            label="Start Time"
-            value={startTime}
-            readOnly={!editEnabled}
-            onChange={(e) =>
-              updateStartTime(e, setStartTime, formValues, setFormValues)
-            }
-          />
-          <DatePicker
-            label="End Date"
-            value={endDate}
-            readOnly={!editEnabled}
-            onChange={(e) =>
-              updateEndDate(e, setEndDate, formValues, setFormValues)
-            }
-          />
-          <TimePicker
-            label="End Time"
-            value={endTime}
-            readOnly={!editEnabled}
-            onChange={(e) =>
-              updateEndTime(e, setEndTime, formValues, setFormValues)
-            }
-          />
+      {scheduleDetails.map((scheduleDetail, index) => {
+        return (
+          <Box sx={{ display: "flex", gap: "8px", alignItems: "center" }}>
+            <LocalizationProvider dateAdapter={AdapterMoment}>
+              <DatePicker
+                label="Start Date"
+                value={moment(scheduleDetail.startDate)}
+                readOnly={!editEnabled}
+                onChange={(e) =>
+                  setValueForm(
+                    e,
+                    "startDate",
+                    scheduleDetails,
+                    setScheduleDetails,
+                    index
+                  )
+                }
+                inputRef={startDateRef}
+              />
+              <TimePicker
+                label="Start Time"
+                value={moment(scheduleDetail.startTime)}
+                readOnly={!editEnabled}
+                onChange={(e) =>
+                  setValueForm(
+                    e,
+                    "startTime",
+                    scheduleDetails,
+                    setScheduleDetails,
+                    index
+                  )
+                }
+              />
+              <DatePicker
+                label="End Date"
+                value={moment(scheduleDetail.endDate)}
+                readOnly={!editEnabled}
+                onChange={(e) =>
+                  setValueForm(
+                    e,
+                    "endDate",
+                    scheduleDetails,
+                    setScheduleDetails,
+                    index
+                  )
+                }
+              />
+              <TimePicker
+                label="End Time"
+                value={moment(scheduleDetail.endTime)}
+                readOnly={!editEnabled}
+                onChange={(e) =>
+                  setValueForm(
+                    e,
+                    "endTime",
+                    scheduleDetails,
+                    setScheduleDetails,
+                    index
+                  )
+                }
+              />
 
-          {editEnabled && (
-            <IconButton
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                width: "40px",
-                height: "40px",
-              }}
-            >
-              <CloseOutlined fontSize="inherit" />
-            </IconButton>
-          )}
-        </LocalizationProvider>
-      </Box>
+              {editEnabled && (
+                <IconButton
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    width: "40px",
+                    height: "40px",
+                  }}
+                >
+                  <CloseOutlined fontSize="inherit" />
+                </IconButton>
+              )}
+            </LocalizationProvider>
+          </Box>
+        );
+      })}
 
       {editEnabled && (
         <>
@@ -132,9 +141,11 @@ const JobWorkScheduleSection: FC<Props> = ({ onWorkScheduleData }) => {
                   handleSave(
                     true,
                     editEnabled,
-                    formValues,
                     setEditEnabled,
-                    onWorkScheduleData
+                    scheduleDetails,
+                    formValues,
+                    setFormValues,
+                    setButtonState
                   )
                 }
                 variant="contained"
@@ -146,12 +157,11 @@ const JobWorkScheduleSection: FC<Props> = ({ onWorkScheduleData }) => {
             <Grid item>
               <Button
                 onClick={() =>
-                  handleSave(
-                    false,
+                  handleCancel(
                     editEnabled,
-                    formValues,
                     setEditEnabled,
-                    onWorkScheduleData
+                    formValues,
+                    setScheduleDetails,
                   )
                 }
                 variant="outlined"
