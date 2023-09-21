@@ -4,7 +4,8 @@ import { TagsEnum } from '@/utils/constants/tagsEnum';
 import { convertEnumToOptions } from '@/utils/helpers';
 import { JobQuery } from '@/utils/types/job';
 import { SelectChangeEvent } from '@mui/material';
-import { useContext, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { ChangeEvent, useContext, useState } from 'react';
 
 const useJobQueryContext = (): JobQuery => {
   const query = useContext(JobQueryContext);
@@ -27,9 +28,13 @@ export const useHooks = () => {
     startDate,
     endDate,
     setStartDate,
-    setEndDate 
+    setEndDate,
+    search,
+    setSearch
   } = useJobQueryContext();
   const [isExpanded, setIsExpanded] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
   const toggleFilters = () => {
     setIsExpanded(!isExpanded);
@@ -42,6 +47,13 @@ export const useHooks = () => {
 
   const handleStatusChange = (e: SelectChangeEvent) => {
     setStatus(e.target.value);
+  };
+
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const query = value === '' ? '' : `?search=${value}`;
+    void router.replace(`${pathname}${query}`);
+    setSearch(e.target.value);
   };
 
   const tagOptions = convertEnumToOptions(TagsEnum);
@@ -59,6 +71,8 @@ export const useHooks = () => {
     startDate,
     endDate,
     setStartDate,
-    setEndDate
+    setEndDate,
+    search,
+    handleSearch
   };
 };

@@ -12,13 +12,13 @@ import { useHooks } from './hooks';
 
 const JobList = (): JSX.Element => {
   const {
-    page,
     jobs,
     count,
+    page,
     pageCount,
-    setPage,
     isLoading,
     error,
+    setPage,
     tag,
     setTag,
     status,
@@ -28,7 +28,9 @@ const JobList = (): JSX.Element => {
     endDate,
     setEndDate,
     isFilter,
-    setIsFilter
+    setIsFilter,
+    search,
+    setSearch
   } = useHooks();
 
   return (
@@ -45,7 +47,9 @@ const JobList = (): JSX.Element => {
             endDate,
             setEndDate,
             isFilter,
-            setIsFilter
+            setIsFilter,
+            search,
+            setSearch
           }}>
           {isLoading ? (
             <StatusDisplay isLoading={isLoading} />

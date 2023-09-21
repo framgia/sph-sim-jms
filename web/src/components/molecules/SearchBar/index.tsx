@@ -6,23 +6,26 @@ import {
   InputLabel,
   OutlinedInput
 } from '@mui/material';
-import { useHooks } from './hooks';
+import { ChangeEvent } from 'react';
 
-const SearchBar = () => {
-  const { searchKeyword, handleSearch } = useHooks();
+interface Props {
+  label: string;
+  value: string;
+  handleSearch: (e: ChangeEvent<HTMLInputElement>) => void;
+}
 
+const SearchBar = ({ value, label, handleSearch }: Props) => {
   return (
     <FormControl fullWidth>
-      <InputLabel htmlFor='search'>Search Job</InputLabel>
+      <InputLabel htmlFor='search'>{label}</InputLabel>
       <OutlinedInput
         className={styles.input}
         id='search'
-        name='search'
-        label='Search Job'
+        label={label}
         size='medium'
         color='secondary'
         autoComplete='off'
-        value={searchKeyword}
+        value={value}
         onChange={handleSearch}
         endAdornment={
           <InputAdornment position='end'>

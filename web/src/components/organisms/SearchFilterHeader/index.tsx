@@ -23,7 +23,9 @@ const SearchFilterHeader = (): JSX.Element => {
     startDate,
     endDate,
     setStartDate,
-    setEndDate
+    setEndDate,
+    search,
+    handleSearch
   } = useHooks();
 
   return (
@@ -41,7 +43,11 @@ const SearchFilterHeader = (): JSX.Element => {
           width: '100%',
           gap: 3
         }}>
-        <SearchBar />
+        <SearchBar
+          value={search}
+          label='Search Job'
+          handleSearch={handleSearch}
+        />
         <Button
           variant='contained'
           className={`${styles.button} ${isExpanded ? styles.active : ''}`}

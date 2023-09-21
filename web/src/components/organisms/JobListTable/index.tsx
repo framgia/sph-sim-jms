@@ -1,4 +1,5 @@
 import StatusChip from '@/components/atoms/StatusChip';
+import styles from '@/styles/SearchResult.module.css';
 import { JobTableRow, TableColumn } from '@/utils/types/job';
 import {
   Box,
@@ -55,6 +56,19 @@ const JobListTable = (): JSX.Element => {
         return <StatusChip label={row.estimation.status} />;
       case 'cost':
         return <Typography variant='label1r'>{row.estimation.cost}</Typography>;
+      case 'title':
+        return (
+          <Typography variant='label1r'>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: row.title.replace(
+                  /<em>/g,
+                  '<em class="' + styles.highlight + '">'
+                )
+              }}
+            />
+          </Typography>
+        );
       default:
         return (
           <Typography variant='label1r'>{row[column.key] as string}</Typography>

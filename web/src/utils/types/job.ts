@@ -65,4 +65,6 @@ export interface JobQuery {
   setEndDate: (date: Moment | null) => void;
   isFilter: boolean;
   setIsFilter: (value: boolean) => void;
+  search: string;
+  setSearch: (value: string) => void;
 }
