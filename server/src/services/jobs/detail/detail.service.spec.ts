@@ -1,11 +1,8 @@
 import { DetailService } from "./detail.service";
 import { NotFoundException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
+import { JobTypes } from "../../../utils/constants/interfaces";
 import { PrismaService } from "../../../database/connection.service";
-import { JobTesting } from "../../../utils/constants/interfaces";
-import { Tag } from "../../../utils/constants/enums/TagsEnum";
-import { PaymentMethod } from "../../../utils/constants/enums/PaymentMethodEnum";
-import { PipelinePhase } from "../../../utils/constants/enums/pipeLinePhase";
 
 // Mock PrismaService
 const prismaServiceMock = {
@@ -38,18 +35,15 @@ describe("DetailService", () => {
 
   describe("findOne", () => {
     it("should find a job by ID", async () => {
-      const mockJob: JobTesting = {
+      const mockJob: JobTypes = {
         id: 1,
         title: "facilis necessitatibus velit",
         type: "maiores",
-        tags: [Tag.TAG_A],
-        remarks: null,
+        tags: ["TAG_B", "TAG_C", "TAG_A"],
+        remarks: "test",
         customerId: 1,
-        paymentMethod: PaymentMethod.CARD,
+        paymentMethod: "CARD",
         userId: 5,
-        pipelinePhase: PipelinePhase.NEGOTIATION,
-        createdAt: new Date("2023-09-19T02:06:07.655Z"),
-        updatedAt: new Date("2023-09-19T02:06:07.655Z"),
         customer: {
           id: 1,
           firstName: "Precious",
@@ -57,28 +51,51 @@ describe("DetailService", () => {
           email: "Lou87@yahoo.com",
           contact: "+63 99 010 30 12",
           address: "21766 Deangelo Fork Apt. 230",
-          createdAt: new Date("2023-09-19T02:06:07.655Z"),
-          updatedAt: new Date("2023-09-19T02:06:07.655Z"),
-        },
-        personInCharge: {
-          id: 5,
-          firstName: "Deborahs",
-          lastName: "Hagenes-Lemke",
-          email: "Shania_Goldner-Hackett93@yahoo.com",
-          role: "USER",
-          createdAt: new Date("2023-09-19T02:06:07.655Z"),
-          updatedAt: new Date("2023-09-19T02:06:07.655Z"),
         },
         schedules: [
           {
             id: 10,
-            startDate: new Date("2023-09-19T23:43:52.121Z"),
-            endDate: new Date("2023-09-19T17:38:41.290Z"),
-            startTime: new Date("2023-09-19T04:05:50.730Z"),
-            endTime: new Date("2023-09-19T02:58:45.323Z"),
+            startDate: new Date(),
+            endDate: new Date(),
+            startTime: new Date(),
+            endTime: new Date(),
             jobId: 1,
-            createdAt: new Date("2023-09-19T02:06:09.035Z"),
-            updatedAt: new Date("2023-09-19T02:06:09.035Z"),
+          },
+        ],
+        personInCharge: {
+          id: 5,
+          firstName: "Deborah",
+          lastName: "Hagenes-Lemke",
+          email: "Shania_Goldner-Hackett93@yahoo.com",
+          role: "USER",
+        },
+      };
+
+      const returnedMockJob = {
+        customer_registration: {
+          firstName: "Precious",
+          lastName: "Stehr",
+          contact: "+63 99 010 30 12",
+          email: "Lou87@yahoo.com",
+          address: "21766 Deangelo Fork Apt. 230",
+        },
+        job_information: {
+          jobTitle: "facilis necessitatibus velit",
+          jobType: "maiores",
+          personInCharge: {
+            id: 5,
+            firstName: "Deborah",
+          },
+          tags: ["TAG_B", "TAG_C", "TAG_A"],
+          remarks: "test",
+          modeOfPayment: "CARD",
+        },
+        work_schedule: [
+          {
+            startDate: new Date().toISOString(),
+            startTime: new Date().toISOString(),
+            endDate: new Date().toISOString(),
+            endTime: new Date().toISOString(),
           },
         ],
       };
@@ -93,7 +110,7 @@ describe("DetailService", () => {
       const jobId = 1;
       const result = await detailService.findOne(jobId);
 
-      expect(result).toEqual(mockJob);
+      expect(result).toEqual(returnedMockJob);
       expect(prismaServiceMock.job.findUnique).toHaveBeenCalledWith({
         where: { id: jobId },
         include: { customer: true, personInCharge: true, schedules: true },

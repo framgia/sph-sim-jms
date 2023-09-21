@@ -4,12 +4,12 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import { BreadcrumbsSection } from "@/components/organisms/BreadCrumbsSection";
 
-import { breadCrumbs } from "./hooks";
-import { JobDetailContextProvider } from "./context";
+import { breadCrumbs } from "../hooks";
+import { JobDetailContextProvider } from "../context";
 import { SubmitButton } from "@/components/organisms/SubmitButton";
 import JobDetailSection from "@/components/organisms/UpdateJobDetailSection";
 import JobWorkScheduleSection from "@/components/organisms/UpdateJobScheduleSection";
-import JobCustomerSection from "../../../components/organisms/UpdateJobCustomerSection";
+import JobCustomerSection from "../../../../components/organisms/UpdateJobCustomerSection";
 
 export default function Job() {
   return (

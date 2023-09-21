@@ -1,12 +1,12 @@
 import React, { FC } from "react";
 import {
-  FormControl,
-  InputLabel,
   Select,
   MenuItem,
+  InputLabel,
+  FormControl,
   SelectChangeEvent,
 } from "@mui/material";
-import { users } from "../organisms/UpdateJobDetailSection/hooks";
+import { PICDummyValues } from "@/utils/constants/PICDummyValues";
 
 type Props = {
   personInChargeId?: number;
@@ -27,7 +27,7 @@ const PersonInChargeSelectDropdown: FC<Props> = ({
         label="Person in Charge *"
         onChange={onChange}
       >
-        {users.map((user) => (
+        {PICDummyValues.map((user) => (
           <MenuItem key={user.id} value={user.id}>
             {user.firstName}
           </MenuItem>

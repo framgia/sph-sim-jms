@@ -1,9 +1,7 @@
-import { FormValuesType, InformationFormType } from "@/utils/interfaces";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { PICDummyValues } from "@/utils/constants/PICDummyValues";
 import { Chip, SelectChangeEvent, Typography } from "@mui/material";
-
-export const users = PICDummyValues;
+import { FormValuesType, InformationFormType } from "@/utils/interfaces";
 
 export const handlePersonInChargeChange = (
   e: SelectChangeEvent,
@@ -11,7 +9,7 @@ export const handlePersonInChargeChange = (
   setFormValues: (JobInformationDummy: InformationFormType) => void
 ) => {
   const { value } = e.target;
-  const userData = users.find((user) => user.id === Number(value));
+  const userData = PICDummyValues.find((user) => user.id === Number(value));
 
   if (userData !== undefined) {
     setFormValues({

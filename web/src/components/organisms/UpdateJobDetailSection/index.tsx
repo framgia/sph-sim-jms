@@ -16,13 +16,13 @@ import ModeOfPaymentsRadioGroup from "../../molecules/ModeOfPaymentsRadioGroup";
 import PersonInChargeSelectDropdown from "../../molecules/PersonInChargeSelectDropdown";
 import {
   handleEdit,
+  handleSave,
+  handleCancel,
   handleTagChips,
   handleMOPChange,
   handleInputProps,
   handleInputChange,
   handlePersonInChargeChange,
-  handleSave,
-  handleCancel,
 } from "./hooks";
 import { useJobDetailContext } from "@/app/job/detail/context";
 
@@ -30,11 +30,11 @@ const JobDetailSection: FC = () => {
   const jobTitle = useRef<HTMLInputElement | null>(null);
   const [editEnabled, setEditEnabled] = useState<boolean>(false);
   const {
-    informationDetails,
-    setInformationDetails,
     formValues,
     setFormValues,
     setButtonState,
+    informationDetails,
+    setInformationDetails,
   } = useJobDetailContext();
 
   useEffect(() => {

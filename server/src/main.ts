@@ -17,6 +17,10 @@ async function bootstrap() {
 
   // Enable pipeline validation globally
   app.useGlobalPipes(new ValidationPipe());
+  app.enableCors({
+    origin: [process.env.WEB_BASE_URL],
+    credentials: true,
+  });
   await app.listen(4000);
 }
 bootstrap();

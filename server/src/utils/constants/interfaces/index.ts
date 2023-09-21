@@ -1,19 +1,38 @@
-import { Tag } from "../enums/TagsEnum";
-import { PipelinePhase } from "../enums/pipeLinePhase";
-import { PaymentMethod } from "../enums/PaymentMethodEnum";
+import { $Enums } from "@prisma/client";
 
-export type JobTesting = {
+export type ReturnJobType = {
+  customer_registration: {
+    firstName: string;
+    lastName: string;
+    contact: string;
+    email: string;
+    address: string;
+  };
+  job_information: {
+    jobTitle: string;
+    jobType: string;
+    personInCharge: { id: number; firstName: string };
+    tags: $Enums.Tag[] | ""[];
+    remarks: string;
+    modeOfPayment: string;
+  };
+  work_schedule: {
+    startDate: string | Date;
+    startTime: string | Date;
+    endDate: string | Date;
+    endTime: string | Date;
+  }[];
+};
+
+export type JobTypes = {
   id: number;
   title: string;
   type: string;
-  tags: Tag[];
+  tags: $Enums.Tag[];
   remarks: string;
   customerId: number;
-  paymentMethod: PaymentMethod;
+  paymentMethod: $Enums.PaymentMethod;
   userId: number;
-  pipelinePhase: PipelinePhase;
-  createdAt: Date;
-  updatedAt: Date;
   customer: {
     id: number;
     firstName: string;
@@ -21,17 +40,13 @@ export type JobTesting = {
     email: string;
     contact: string;
     address: string;
-    createdAt: Date;
-    updatedAt: Date;
   };
   personInCharge: {
     id: number;
     firstName: string;
     lastName: string;
     email: string;
-    role: "USER";
-    createdAt: Date;
-    updatedAt: Date;
+    role: $Enums.Role;
   };
   schedules: {
     id: number;
@@ -40,7 +55,5 @@ export type JobTesting = {
     startTime: Date;
     endTime: Date;
     jobId: number;
-    createdAt: Date;
-    updatedAt: Date;
   }[];
 };

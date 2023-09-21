@@ -9,20 +9,20 @@ import {
   LocalizationProvider,
 } from "@mui/x-date-pickers";
 import { useJobDetailContext } from "@/app/job/detail/context";
-import { handleCancel, handleEdit, handleSave, setValueForm } from "./hooks";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { Box, Button, Grid, IconButton, Typography } from "@mui/material";
+import { handleCancel, handleEdit, handleSave, setValueForm } from "./hooks";
 
 const JobWorkScheduleSection: FC = () => {
   const startDateRef = useRef<HTMLInputElement | null>(null);
   const [editEnabled, setEditEnabled] = useState<boolean>(false);
 
   const {
-    scheduleDetails,
-    setScheduleDetails,
     formValues,
     setFormValues,
     setButtonState,
+    scheduleDetails,
+    setScheduleDetails,
   } = useJobDetailContext();
 
   useEffect(() => {
@@ -161,7 +161,7 @@ const JobWorkScheduleSection: FC = () => {
                     editEnabled,
                     setEditEnabled,
                     formValues,
-                    setScheduleDetails,
+                    setScheduleDetails
                   )
                 }
                 variant="outlined"

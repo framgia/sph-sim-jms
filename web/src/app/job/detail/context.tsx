@@ -1,11 +1,21 @@
+"use client";
+
+import { useGetJob } from "@/hooks/useJob";
 import { FormValues } from "@/utils/constants/FormInitialDummyValues";
 import {
-  CustomerFormType,
   FormValuesType,
-  InformationFormType,
   ScheduleFormType,
+  CustomerFormType,
+  InformationFormType,
 } from "@/utils/interfaces";
-import React, { useState, ReactNode, createContext, useContext } from "react";
+import React, {
+  useState,
+  ReactNode,
+  useEffect,
+  useContext,
+  createContext,
+} from "react";
+import { useParams } from "next/navigation";
 
 // Create the context
 const JobDetailContext = createContext({
@@ -42,17 +52,36 @@ const JobDetailContext = createContext({
 
 // Create a provider component
 const JobDetailContextProvider = ({ children }: { children: ReactNode }) => {
-  const { customer_registration, job_information, work_schedule } = FormValues;
-
+  const { id } = useParams();
   const [customerDetails, setCustomerDetails] = useState<CustomerFormType>(
-    customer_registration
+    FormValues.customer_registration
   );
   const [informationDetails, setInformationDetails] =
-    useState<InformationFormType>(job_information);
-  const [scheduleDetails, setScheduleDetails] =
-    useState<ScheduleFormType[]>(work_schedule);
+    useState<InformationFormType>(FormValues.job_information);
+  const [scheduleDetails, setScheduleDetails] = useState<ScheduleFormType[]>(
+    FormValues.work_schedule
+  );
   const [buttonState, setButtonState] = useState<boolean>(false);
   const [formValues, setFormValues] = useState<FormValuesType>(FormValues);
+
+  // For initial values
+  useEffect(() => {
+    const fetchJobData = async (id: number) => {
+      try {
+        const jobData = await useGetJob(id);
+        const { customer_registration, job_information, work_schedule } =
+          jobData;
+
+        setFormValues(jobData);
+        setScheduleDetails(work_schedule);
+        setInformationDetails(job_information);
+        setCustomerDetails(customer_registration);
+      } catch (error) {
+        console.error("Error fetching job data:", error);
+      }
+    };
+    fetchJobData(Number(id));
+  }, [id]);
 
   return (
     <JobDetailContext.Provider
