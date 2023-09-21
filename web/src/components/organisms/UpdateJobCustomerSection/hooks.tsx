@@ -1,5 +1,5 @@
-import { CustomerFormType, FormValuesType } from "@/utils/interfaces";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { CustomerFormType, FormValuesType } from "@/utils/interfaces";
 
 export const handleInputProps = (editEnabled?: boolean) => {
   return !editEnabled ? { readOnly: true } : { readOnly: false };
@@ -45,7 +45,7 @@ export const handleCancel = (
   editEnabled: boolean,
   setEditEnabled: Dispatch<SetStateAction<boolean>>,
   formValues: FormValuesType,
-  setCustomerDetails: (newFormValue: CustomerFormType) => void,
+  setCustomerDetails: (newFormValue: CustomerFormType) => void
 ) => {
   setEditEnabled(!editEnabled);
   setCustomerDetails(formValues.customer_registration);

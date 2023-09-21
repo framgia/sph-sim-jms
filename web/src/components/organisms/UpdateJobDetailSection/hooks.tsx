@@ -5,15 +5,15 @@ import { FormValuesType, InformationFormType } from "@/utils/interfaces";
 
 export const handlePersonInChargeChange = (
   e: SelectChangeEvent,
-  formValues: InformationFormType,
-  setFormValues: (JobInformationDummy: InformationFormType) => void
+  informationDetails: InformationFormType,
+  setInformationDetails: (newJobInformationDummy: InformationFormType) => void
 ) => {
   const { value } = e.target;
   const userData = PICDummyValues.find((user) => user.id === Number(value));
 
   if (userData !== undefined) {
-    setFormValues({
-      ...formValues,
+    setInformationDetails({
+      ...informationDetails,
       ["personInCharge"]: userData,
     });
   }
@@ -22,10 +22,10 @@ export const handlePersonInChargeChange = (
 export const handleMOPChange = (
   e: SelectChangeEvent,
   formValues: InformationFormType,
-  setFormValues: (JobInformationDummy: InformationFormType) => void
+  setInformationDetails: (newJobInformationDummy: InformationFormType) => void
 ) => {
   const { value } = e.target;
-  setFormValues({
+  setInformationDetails({
     ...formValues,
     ["modeOfPayment"]: value,
   });
@@ -34,17 +34,17 @@ export const handleMOPChange = (
 export const handleTagChips = (
   editEnabled: boolean,
   formValues: InformationFormType,
-  setFormValues: (JobInformationDummy: InformationFormType) => void
+  setInformationDetails: (newJobInformationDummy: InformationFormType) => void
 ): JSX.Element[] => {
   const { tags } = formValues;
   const handleDelete = (
     index: number,
     tagArray: string[],
-    setFormValues: (JobInformationDummy: InformationFormType) => void
+    setInformationDetails: (newJobInformationDummy: InformationFormType) => void
   ) => {
     const updatedItems = [...tagArray];
     updatedItems.splice(index, 1);
-    return setFormValues({
+    return setInformationDetails({
       ...formValues,
       ["tags"]: updatedItems,
     });
@@ -58,7 +58,7 @@ export const handleTagChips = (
         label={<Typography variant="body2b">{item}</Typography>}
         onDelete={
           editEnabled
-            ? () => handleDelete(index, tags, setFormValues)
+            ? () => handleDelete(index, tags, setInformationDetails)
             : undefined
         }
       />
@@ -80,7 +80,7 @@ export const handleEdit = (
 export const handleInputChange = (
   event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   informationDetails: InformationFormType,
-  setInformationDetails: (JobInformationDummy: InformationFormType) => void
+  setInformationDetails: (newJobInformationDummy: InformationFormType) => void
 ): void => {
   const { name, value } = event.target;
   setInformationDetails({
