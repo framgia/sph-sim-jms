@@ -1,0 +1,8 @@
+
+export enum EstimationStatusEnum {
+  NOT_YET_CREATED = "NOT_YET_CREATED",
+  MAKING = "MAKING",
+  APPROVED = "APPROVED",
+  SENT_TO_CUSTOMER = "SENT_TO_CUSTOMER",
+  CLOSED = "CLOSED",
+}
