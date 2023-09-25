@@ -14,6 +14,18 @@ export const customColors: PaletteOptions = {
   secondary: {
     main: "#5B829B",
   },
+  warning: {
+    main: "#FDFF8F",
+  },
+  info: {
+    main: "#84C1FF"
+  },
+  success: {
+    main: "#8AFFB2"
+  },
+  error: {
+    main: "#FFB4AF"
+  },
   dark: "#293743",
   neutral: "#65707A",
   disabled: "#999999",
@@ -21,4 +33,5 @@ export const customColors: PaletteOptions = {
   white: "#FFFFFF",
   "background-primary": "#F0F0F0",
   "background-secondary": "#F6F6F6",
+  "chip-default": "#65707b33",
 };
