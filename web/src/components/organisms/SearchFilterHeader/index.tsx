@@ -2,7 +2,7 @@
 
 import { FilterCog } from '@/assets/icons/FilterCog';
 import { FilterRemove } from '@/assets/icons/FilterRemove';
-import styles from '@/styles/Filter.module.css';
+import styles from '@/assets/styles/Filter.module.css';
 import TableRows from '@mui/icons-material/TableRows';
 import { Box, Button, Collapse } from '@mui/material';
 import CreateDateRangeFilter from '../../molecules/CreatedDateRangeFilter';

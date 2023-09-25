@@ -1,4 +1,4 @@
-import { JobListContext } from '@/app/job/context';
+import { JobListContext } from '@/app/job/list/context';
 import { JobTable } from '@/utils/types/job';
 import { useContext } from 'react';
 

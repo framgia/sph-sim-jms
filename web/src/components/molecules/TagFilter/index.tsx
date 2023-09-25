@@ -1,4 +1,4 @@
-import styles from '@/styles/Filter.module.css';
+import styles from '@/assets/styles/Filter.module.css';
 import { Tags } from '@/utils/constants/tags';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { useHooks } from './hooks';

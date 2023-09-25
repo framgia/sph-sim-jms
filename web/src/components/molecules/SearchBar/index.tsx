@@ -1,4 +1,4 @@
-import styles from '@/styles/Filter.module.css';
+import styles from '@/assets/styles/Filter.module.css';
 import SearchIcon from '@mui/icons-material/Search';
 import {
   FormControl,

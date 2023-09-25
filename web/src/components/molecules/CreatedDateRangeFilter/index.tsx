@@ -1,6 +1,6 @@
 'use-client';
 
-import styles from '@/styles/Filter.module.css';
+import styles from '@/assets/styles/Filter.module.css';
 import { Box } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
