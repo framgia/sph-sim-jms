@@ -5,6 +5,7 @@ import { Box, ButtonBase } from '@mui/material';
 import { FC } from 'react';
 
 import { Menus } from '@/utils/constants/navbarMenu';
+import { usePathname } from 'next/navigation';
 import NavBarItem from '../../molecules/NavBarItem';
 
 interface Props {
@@ -23,6 +24,8 @@ const NavBar: FC<Props> = ({
   rowGap = 2,
   handleToggle
 }) => {
+  const pathname = usePathname();
+
   return (
     <Box
       sx={{
@@ -62,7 +65,12 @@ const NavBar: FC<Props> = ({
         }}>
         {Menus.map((item, index) => (
           <ButtonBase key={index} disableRipple>
-            <NavBarItem label={item.name} Icon={item.Icon} linkTo={item.href} />
+            <NavBarItem
+              label={item.name}
+              Icon={item.Icon}
+              linkTo={item.href}
+              active={pathname === item.href}
+            />
           </ButtonBase>
         ))}
       </Box>

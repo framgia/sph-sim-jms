@@ -54,6 +54,7 @@ declare module "@mui/material/styles" {
     white: string;
     "background-primary": string;
     "background-secondary": string;
+    "chip-default": string,
   }
   interface PaletteOptions {
     dark?: string;
@@ -63,6 +64,7 @@ declare module "@mui/material/styles" {
     white?: string;
     "background-primary"?: string;
     "background-secondary"?: string;
+    "chip-default"?: string,
   }
 }
 

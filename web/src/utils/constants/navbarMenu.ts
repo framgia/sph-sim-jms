@@ -15,7 +15,7 @@ export const Menus: IMenu[] = [
   {
     name: 'Job List',
     Icon: Home,
-    href: '/'
+    href: '/job/list'
   },
   {
     name: 'Calendar',

@@ -7,7 +7,7 @@ const StatusChip: FC<ChipProps> = ({ label }: ChipProps) => {
     <Chip
       label={label}
       sx={{
-        backgroundColor: ChipColors[label as string] ?? '#65707b33',
+        backgroundColor: ChipColors[label as string] ?? 'chip-default',
         typography: 'label1r'
       }}
     />

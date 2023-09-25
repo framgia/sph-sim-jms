@@ -8,8 +8,12 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { useHooks } from './hooks';
 
 const CreateDateRangeFilter = () => {
-  const { startDate, handleStartDateChange, endDate, handleEndDateChange } =
-    useHooks();
+  const { 
+    startDate, 
+    handleStartDateChange, 
+    endDate, 
+    handleEndDateChange 
+  } = useHooks();
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -20,6 +24,9 @@ const CreateDateRangeFilter = () => {
           onChange={handleStartDateChange}
           className={styles.input}
           slotProps={{
+            actionBar: {
+              actions: ['clear']
+            },
             textField: {
               size: 'small',
               color: 'secondary',
@@ -35,6 +42,9 @@ const CreateDateRangeFilter = () => {
           onChange={handleEndDateChange}
           className={styles.input}
           slotProps={{
+            actionBar: {
+              actions: ['clear']
+            },
             textField: {
               size: 'small',
               color: 'secondary',

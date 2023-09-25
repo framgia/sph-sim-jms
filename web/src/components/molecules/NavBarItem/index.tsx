@@ -3,7 +3,6 @@
 import { SvgIconComponent } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { FC } from 'react';
 
 interface Props {
@@ -27,9 +26,6 @@ const NavBarItem: FC<Props> = ({
   gap = 1,
   linkTo = '/'
 }) => {
-  const pathname = usePathname();
-  active = pathname === linkTo ? true : false;
-
   const backgroundColor = active ? 'primary.100' : 'primary.700';
   const textColor = active ? 'dark' : 'white';
 
